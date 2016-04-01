@@ -5,10 +5,10 @@
 
 
 
-Client* makeClient(int num, int nbAppel, int total) {
+Client* makeClient(int num, int nbAppel, int total) { //fonction de création de client
 	Client* new = NULL;
 	new = malloc(sizeof(Client));
-	if (new == NULL) {
+	if (new == NULL) { //en cas d'erreur de malloc on quite immédiatement
 		perror("Erreur malloc client");
 		exit(1);
 	}
@@ -20,7 +20,7 @@ Client* makeClient(int num, int nbAppel, int total) {
 
 }
 
-void updateClient(Client* cl, int prixAppel) {
+void updateClient(Client* cl, int prixAppel) { //fonction de mise à jour d'un client, utilisé par addLogLine()
 	cl->total += prixAppel;
 	cl->nbAppel += 1;
 }
@@ -30,17 +30,17 @@ Client* addLogLine(Client* list, int numero, int prixAppel) {
 	Client* j;
 	
 	
-	if(list == NULL || list->num > numero) { //Insertion en tête
+	if(list == NULL || list->num > numero) { //Insertion en tête, cas liste vide et cas où le client a le plus petit des numéros
 		i = makeClient(numero,1,prixAppel);
 		i->next = list;
-		return i;
+		return i; //le nouvel element est la tête
 	}
 	if(list->num == numero) { //Mise à jour en tête
 		updateClient(list,prixAppel);
 		return list;
 	}
 	
-	for(i = list;i->next != NULL;i = i->next) {
+	for(i = list;i->next != NULL;i = i->next) { //cas général
 		if(i->next->num == numero) {
 			updateClient(i->next,prixAppel);
 			return list;
@@ -52,7 +52,7 @@ Client* addLogLine(Client* list, int numero, int prixAppel) {
 			return list;
 		}
 	}
-	
+	//cas de l'ajout en queue
 	j = makeClient(numero,1,prixAppel);
 	j->next = i->next;
 	i->next = j;
