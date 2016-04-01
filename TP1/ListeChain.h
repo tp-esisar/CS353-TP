@@ -1,12 +1,13 @@
 #ifndef LISTECHAIN_H
 #define LISTECHAIN_H
 
-typedef Client struct {
+struct Client {
 	int num;
 	int nbAppel;
 	int total;
-	Client* next;
-} Client;
+	struct Client* next;
+};
+typedef struct Client Client;
 
 Client* makeClient(int num, int nbAppel, int total);
 

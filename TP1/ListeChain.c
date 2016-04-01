@@ -26,9 +26,11 @@ void updateClient(Client* cl, int prixAppel) {
 }
 
 Client* addLogLine(Client* list, int numero, int prixAppel) {
-	Client* i,j;
+	Client* i;
+	Client* j;
 	
-	if(list->num > numero) { //Insertion en tête
+	
+	if(list == NULL || list->num > numero) { //Insertion en tête
 		i = makeClient(numero,1,prixAppel);
 		i->next = list;
 		return i;
@@ -62,7 +64,7 @@ void dumpList(Client* list) {
 
 	Client* i;
 	for(i = list;i != NULL;i = i->next) {
-		printf("[numero=\"%d\", nbAppel=\"%d\", prixTotal=\"%d\"",i->num,i->,nbAppel,i->total);
+		printf("[numero=\"%d\",\tnbAppel=\"%d\",\tprixTotal=\"%d\"\n",i->num,i->nbAppel,i->total);
 	}
 }
 

@@ -26,7 +26,7 @@ int main()
 		 prixAppel = (rand() % 400)+1;
 		 // Ajout de cette ligne de log dans la liste des clients
 		 list = addLogLine(list ,numeroTel,prixAppel);
-		 printf("numero=%d prix = %d\n",numeroTel,prixAppel);
+		 //printf("numero=%d prix = %d\n",numeroTel,prixAppel);
 		 // Affichage du pourcentage d'avancement
 		 if ((i % pas)==0)
 		 {
