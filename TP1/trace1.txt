@@ -1,0 +1,21 @@
+****** Facturation appels telephoniques ******
+numero=600000033 prix = 87
+numero=600000027 prix = 116
+numero=600000043 prix = 336
+numero=600000036 prix = 93
+numero=600000049 prix = 222
+numero=600000012 prix = 28
+numero=600000040 prix = 60
+numero=600000013 prix = 327
+numero=600000040 prix = 227
+numero=600000022 prix = 137
+[numero="600000012",	nbAppel="1",	prixTotal="28"
+[numero="600000013",	nbAppel="1",	prixTotal="327"
+[numero="600000022",	nbAppel="1",	prixTotal="137"
+[numero="600000027",	nbAppel="1",	prixTotal="116"
+[numero="600000033",	nbAppel="1",	prixTotal="87"
+[numero="600000036",	nbAppel="1",	prixTotal="93"
+[numero="600000040",	nbAppel="2",	prixTotal="287"
+[numero="600000043",	nbAppel="1",	prixTotal="336"
+[numero="600000049",	nbAppel="1",	prixTotal="222"
+======= Facturation appels telephoniques ======
