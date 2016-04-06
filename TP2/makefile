@@ -1,6 +1,6 @@
 CFLAGS=-g -Wall
 LFLAGS=
-HEADERS=ListeChain.h
+HEADERS=ArbreBin.h
 
 %.o: %.c $(HEADERS)
 	gcc -c $(CFLAGS) $< -o $@
