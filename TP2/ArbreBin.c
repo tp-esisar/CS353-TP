@@ -27,6 +27,29 @@ void parcoursInfixe(struct Client * abr) {
 	}
 }
 
+struct Client * insert(struct Client * abr, int numeroTel, int prixAppel) {
+	Client* necreateNode
+}
+
+struct Client* insert_rec(struct Client* root, struct Client* item) {
+	if (root = NULL) {
+		return item;
+	}
+	else {
+		if (item->num < root->num) {
+			return insert_rec(root->fg);
+		}
+		if (item->num > root->num) {
+			return insert_rec(root->fd);
+		}
+		if (item->num == root->num) {
+			return root;
+		}
+	}
+}
+
+
+
 struct Client * search(struct Client * abr,int numeroTel) {
 	if (abr == NULL)
 		return NULL;
