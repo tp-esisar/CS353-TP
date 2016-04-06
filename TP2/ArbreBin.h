@@ -12,6 +12,8 @@ typedef struct Client Client;
 
 struct Client * createNode(int numeroTel, int nbAppel,int cout);
 void parcoursInfixe(struct Client * abr);
+struct Client * search(struct Client * abr,int numeroTel);
+
 
 
 
