@@ -28,20 +28,16 @@ void parcoursInfixe(struct Client * abr) {
 	}
 }
 
-struct Client * insert(struct Client * abr, int numeroTel, int prixAppel) {
-	Client* necreateNode
-}
-
-struct Client* insert_rec(struct Client* root, struct Client* item) {
+struct Client* insert(struct Client* root, int num, int prixAppel) {
 	if (root = NULL) {
-		return item;
+		return createNode(num,1,prixAppel);
 	}
 	else {
 		if (item->num < root->num) {
-			return insert_rec(root->fg);
+			root->fg=insert(root->fg);
 		}
 		if (item->num > root->num) {
-			return insert_rec(root->fd);
+			root->fd=insert(root->fd);
 		}
 		if (item->num == root->num) {
 			return root;
