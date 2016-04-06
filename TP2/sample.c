@@ -1,4 +1,6 @@
 #include "ArbreBin.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 struct Client * createSampleTree() {
   Client* arbre = createNode(15,0,0);
@@ -15,16 +17,38 @@ struct Client * createSampleTree() {
 }
 
 int main() {
-  Client* arbre = createSampleTree();
-  parcoursInfixe(arbre);
-  arbre = insert(arbre,18,2);
-  printf("\n");
-  
-  parcoursInfixe(arbre);
-arbre = deleteNode(arbre, 15);
+    Client* arbre = createSampleTree();
+    parcoursInfixe(arbre);
 
-  printf("\n");
-  
-  parcoursInfixe(arbre);
-  return 0;  
+    //Test de l'insertion
+    arbre = insert(arbre,18,2);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    //Test de la suppression de la racine
+    arbre = deleteNode(arbre, 15);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    //Test de la suppression d'un noeud
+    arbre = deleteNode(arbre, 12);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    //Test de la suppression d'un noeud
+    arbre = deleteNode(arbre, 8);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    //Test de la suppression d'un noeud
+    arbre = deleteNode(arbre, 13);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    //Test de la suppression d'un noeud
+    arbre = deleteNode(arbre, 50);
+    printf("\n");
+    parcoursInfixe(arbre);
+
+    return 0;
 }

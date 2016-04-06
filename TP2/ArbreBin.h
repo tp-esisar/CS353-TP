@@ -16,5 +16,4 @@ struct Client * search(struct Client * abr,int numeroTel);
 struct Client * deleteNode(struct Client * abr, int numeroTel);
 struct Client * insert(struct Client * abr, int numeroTel, int prixAppel);
 
-
 #endif
