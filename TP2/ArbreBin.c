@@ -29,19 +29,17 @@ void parcoursInfixe(struct Client * abr) {
 }
 
 struct Client* insert(struct Client* root, int num, int prixAppel) {
-	if (root = NULL) {
+	if (root == NULL) {
 		return createNode(num,1,prixAppel);
 	}
 	else {
-		if (item->num < root->num) {
-			root->fg=insert(root->fg);
+		if (num < root->num) {
+			root->fg=insert(root->fg,num,prixAppel);
 		}
-		if (item->num > root->num) {
-			root->fd=insert(root->fd);
+		if (num > root->num) {
+			root->fd=insert(root->fd,num,prixAppel);
 		}
-		if (item->num == root->num) {
-			return root;
-		}
+		return root;
 	}
 }
 
