@@ -12,8 +12,7 @@ struct Client * createNode(int numeroTel, int nbAppel,int cout) {
 	}
 	new->num = numeroTel;
 	new->nbAppel = nbAppel;
-	new->total = cout;
-	new->pere = NULL;	
+	new->total = cout;	
 	new->fg = NULL;
 	new->fd = NULL;
 	
@@ -42,34 +41,32 @@ struct Client * search(struct Client * abr,int numeroTel) {
 
 struct Client * deleteNode(struct Client * abr, int numeroTel) {
 	
-	/*Client* elm = NULL;
-	elm = search (abr, numeroTel);
-	if (elm == NULL) {
-		printf("Element non present");
+	Client* retour = NULL;
+	Client* elmSuiv = NULL;
+	int i = numeroTel+1;
+
+	if (abr == NULL)
 		return abr;
-	}
 
-	// Cas du père de l'arbre à 2 éléments !!!
-
-	if (elm->fg == NULL || elm->fg == NULL) {
-		if (elm == abr) {
-			if(elm->fg == NULL)
-				abr = elm->fd;
-			else if(elm->fd == NULL)
-				abr = elm->fg;
-			abr->pere = NULL;
+	if (abr-> num == numeroTel) {
+		if (abr->fg == NULL)
+			retour = abr->fg;
+		else if (abr->fg == NULL)
+			retour = abr->fd;
+		else {
+			while ( (elmSuiv = search(abr,i++)) == NULL);
+			retour = createNode(elmSuiv->num, elmSuiv->nbAppel, elmSuiv->total);
+			deleteNode (abr, elmSuiv->num);
 		}
-		else if (elm->pere->fg == elm)
-			elm->pere->fg = elm->fg;
-		else if (abr->pere->fd == elm)
-			elm->pere->fd = elm->fd;
+		free(abr);
+		return retour ;
 	}
-	else {
-		while (search(struct Client * abr,int numeroTel)
-	}
+	else if (numeroTel > abr->num)
+		abr->fd = deleteNode (abr->fd, numeroTel);
 
-	free(abr);*/
-	return NULL;
+	else if (numeroTel < abr->num)
+		abr->fg = deleteNode (abr->fg, numeroTel);
+	return abr;
 
 }
 

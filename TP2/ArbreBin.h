@@ -5,7 +5,6 @@ struct Client {
 	int num;
 	int nbAppel;
 	int total;
-	struct Client* pere;
 	struct Client* fg;
 	struct Client* fd;
 };
