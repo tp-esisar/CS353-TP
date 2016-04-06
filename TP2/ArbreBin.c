@@ -13,6 +13,7 @@ struct Client * createNode(int numeroTel, int nbAppel,int cout) {
 	new->num = numeroTel;
 	new->nbAppel = nbAppel;
 	new->total = cout;
+	new->pere = NULL;	
 	new->fg = NULL;
 	new->fd = NULL;
 	
@@ -36,6 +37,39 @@ struct Client * search(struct Client * abr,int numeroTel) {
 		return search (abr->fd, numeroTel);
 	else 
 		return search (abr->fg, numeroTel);
+
+}
+
+struct Client * deleteNode(struct Client * abr, int numeroTel) {
+	
+	/*Client* elm = NULL;
+	elm = search (abr, numeroTel);
+	if (elm == NULL) {
+		printf("Element non present");
+		return abr;
+	}
+
+	// Cas du père de l'arbre à 2 éléments !!!
+
+	if (elm->fg == NULL || elm->fg == NULL) {
+		if (elm == abr) {
+			if(elm->fg == NULL)
+				abr = elm->fd;
+			else if(elm->fd == NULL)
+				abr = elm->fg;
+			abr->pere = NULL;
+		}
+		else if (elm->pere->fg == elm)
+			elm->pere->fg = elm->fg;
+		else if (abr->pere->fd == elm)
+			elm->pere->fd = elm->fd;
+	}
+	else {
+		while (search(struct Client * abr,int numeroTel)
+	}
+
+	free(abr);*/
+	return NULL;
 
 }
 
