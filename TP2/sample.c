@@ -17,6 +17,9 @@ struct Client * createSampleTree() {
 int main() {
   Client* arbre = createSampleTree();
   parcoursInfixe(arbre);
-  return 0;
+  arbre = insert(arbre,18,2);
+  printf("\n");
   
+  parcoursInfixe(arbre);
+  return 0;  
 }
