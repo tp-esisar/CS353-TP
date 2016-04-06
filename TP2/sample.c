@@ -21,5 +21,10 @@ int main() {
   printf("\n");
   
   parcoursInfixe(arbre);
+arbre = deleteNode(arbre, 15);
+
+  printf("\n");
+  
+  parcoursInfixe(arbre);
   return 0;  
 }

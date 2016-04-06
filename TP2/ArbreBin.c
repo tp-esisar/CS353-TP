@@ -73,6 +73,8 @@ struct Client * deleteNode(struct Client * abr, int numeroTel) {
 		else {
 			while ( (elmSuiv = search(abr,i++)) == NULL);
 			retour = createNode(elmSuiv->num, elmSuiv->nbAppel, elmSuiv->total);
+			retour->fg = abr->fg;
+			retour->fd = abr->fd;
 			deleteNode (abr, elmSuiv->num);
 		}
 		free(abr);
