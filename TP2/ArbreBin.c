@@ -14,13 +14,13 @@ struct Client * createNode(int numeroTel, int nbAppel,int cout) {
 	new->nbAppel = nbAppel;
 	new->total = cout;
 	new->fg = NULL;
-	nex->fd = NULL;
+	new->fd = NULL;
 	
 	return new;
 }
 
 void parcoursInfixe(struct Client * abr) {
-	if (x != NULL){
+	if (abr != NULL){
 		parcoursInfixe(abr->fg);
 		printf("[numero=\"%d\",\tnbAppel=\"%d\",\tprixTotal=\"%d\"\n",abr->num,abr->nbAppel,abr->total);
 		parcoursInfixe(abr->fd);
@@ -38,4 +38,5 @@ struct Client * search(struct Client * abr,int numeroTel) {
 		return search (abr->fg, numeroTel);
 
 }
+
 
