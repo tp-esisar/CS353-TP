@@ -13,10 +13,10 @@ int main()
 	 int i;
 	 int numeroTel;
 	 int prixAppel;
-	 
+
 	 // Aide au calcul du pourcentage d'avancement
 	 int pas = NBLOGLINE/100;
-	 
+
 	 printf("****** Facturation appels telephoniques ******\n");
 	 for(i=0;i<NBLOGLINE;i++)
 	 {

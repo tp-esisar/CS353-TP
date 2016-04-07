@@ -50,7 +50,6 @@ struct Client * search(struct Client * abr,int numeroTel) {
 		return search (abr->fd, numeroTel);
 	else //Soit il est plus petit que l'élément actuel et il faut le chercher sur son fils gauche
 		return search (abr->fg, numeroTel);
-
 }
 
 struct Client * deleteNode(struct Client * abr, int numeroTel) {
@@ -76,7 +75,8 @@ struct Client * deleteNode(struct Client * abr, int numeroTel) {
 		free(abr); //On supprime le client
 		return retour ; //On envoie au père son nouveau (ou inchangé) fils
 	}
-	else {
+
+	else { //Si l'on a pas trouvé l'élément à supprimer
         if (numeroTel > abr->num) //Si le n° du client à supprimer est plus grand que l'actuel on le cherche à droite
 		abr->fd = deleteNode (abr->fd, numeroTel);
 
@@ -85,7 +85,6 @@ struct Client * deleteNode(struct Client * abr, int numeroTel) {
 
         return abr;
 	}
-
 
 }
 
