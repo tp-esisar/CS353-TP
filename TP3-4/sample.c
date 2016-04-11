@@ -3,52 +3,56 @@
 #include <stdlib.h>
 
 struct Client * createSampleTree() {
-  Client* arbre = createNode(15,0,0);
-  arbre->fg = createNode(12,0,0);
-  arbre->fg->fg = createNode(8,0,0);
-  arbre->fg->fg->fd = createNode(10,0,0);
-  arbre->fg->fd = createNode(14,0,0);
-  arbre->fg->fd->fg = createNode(13,0,0);
-  arbre->fd = createNode(20,0,0);
-  arbre->fd->fd = createNode(21,0,0);
-  arbre->fd->fg = createNode(16,0,0);
-  arbre->fd->fg->fd = createNode(17,0,0);
-  return arbre;
+  Client* temp= NULL;
+  Client* sentinelle = createNode(0,0,0, BLACK);
+
+  temp = createNode(7,0,0, BLACK);
+  temp->fg = createNode(2,0,0, RED);
+  temp->fd = createNode(11,0,0, RED);
+  temp->pere = sentinelle;
+  sentinelle->fg = temp;
+
+  temp->fg->fg = createNode(1,0,0, BLACK);
+  temp->fg->fg->fg = sentinelle;
+  temp->fg->fg->fd = sentinelle;
+  temp->fg->fg->pere = temp->fg;
+
+  temp->fg->fd = createNode(5,0,0, BLACK);
+  temp->fg->fd->fg = createNode(4,0,0, RED);
+  temp->fg->fd->fd = sentinelle;
+  temp->fg->fd->pere = temp->fg;
+
+  temp->fg->fd->fg->fg = sentinelle;
+  temp->fg->fd->fg->fd = sentinelle;
+  temp->fg->fd->fg->pere = temp->fg->fd;
+
+  temp->fd->fg = createNode(8,0,0, BLACK);
+  temp->fd->fd = createNode(14,0,0, BLACK);
+  temp->fd->pere = temp;
+
+  temp = temp->fd;
+  temp->fg->fg = sentinelle;
+  temp->fg->fd = sentinelle;
+  temp->fg->pere= temp;
+
+  temp->fd->fg = sentinelle;
+  temp->fd->fd = createNode(15,0,0, RED);
+  temp->fd->pere= temp;
+
+  temp = temp->fd;
+  temp->fd->fg = sentinelle;
+  temp->fd->fd = sentinelle;
+  temp->fd->pere = temp;
+
+  return sentinelle;
 }
 
 int main() {
-    Client* arbre = createSampleTree();
-    parcoursInfixe(arbre);
-
-    //Test de l'insertion
-    arbre = insert(arbre,18,2);
-    printf("\n");
-    parcoursInfixe(arbre);
-
-    //Test de la suppression de la racine
-    arbre = deleteNode(arbre, 15);
-    printf("\n");
-    parcoursInfixe(arbre);
-
-    //Test de la suppression d'un noeud
-    arbre = deleteNode(arbre, 12);
-    printf("\n");
-    parcoursInfixe(arbre);
-
-    //Test de la suppression d'un noeud
-    arbre = deleteNode(arbre, 8);
-    printf("\n");
-    parcoursInfixe(arbre);
-
-    //Test de la suppression d'un noeud
-    arbre = deleteNode(arbre, 13);
-    printf("\n");
-    parcoursInfixe(arbre);
-
-    //Test de la suppression d'un noeud
-    arbre = deleteNode(arbre, 50);
-    printf("\n");
-    parcoursInfixe(arbre);
+    Client* sentinelle = createSampleTree();
+    printf("\n\nParcours Prefixe : \n");
+	parcoursPrefixe(sentinelle);
+	printf("\n\nParcours Infixe : \n");
+	parcoursInfixe(sentinelle);
 
     return 0;
 }

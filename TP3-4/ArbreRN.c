@@ -26,7 +26,7 @@ char toCharColor(Color color) {
 		return 'R';
 	else
 		return 'N';
-}	
+}
 
 void parcoursPrefixeR(struct Client * noeud) {
 	if (noeud->num == 0)
@@ -43,24 +43,17 @@ void parcoursPrefixe(struct Client * sentinelle) {
 		parcoursPrefixeR (sentinelle->fg);
 }
 
-void parcoursInfixe(struct Client * noeud) {
-	if (noeurd->num == 0) 
-		printf("S \n");
-	else {
-		parcoursInfixe(noeud->fg);
+void parcoursInfixeR(struct Client * noeud) {
+	if (noeud->num != 0) {
+		parcoursInfixeR(noeud->fg);
 		printf("[numero=\"%d\",\tnbAppel=\"%d\",\tprixTotal=\"%d\"\n",noeud->num,noeud->nbAppel,noeud->total);
-		parcoursInfixe(noeud->fd);
+		parcoursInfixeR(noeud->fd);
 	}
 }
 
 void parcoursInfixe(struct Client * sentinelle) {
 	if (sentinelle->fg != NULL)
 		parcoursInfixeR (sentinelle->fg);
-}
-
-struct Client * search(struct Client * sentinelle,int numeroTel) {
-	if (sentinelle->fg != NULL)
-		searchR (sentinelle->fg);
 }
 
 struct Client * searchR(struct Client * noeud,int numeroTel) {
@@ -72,12 +65,9 @@ struct Client * searchR(struct Client * noeud,int numeroTel) {
 		return searchR(noeud->fd,numeroTel);
 	else if (noeud->num > numeroTel)
 		return searchR(noeud->fg,numeroTel);
+    else
+        return NULL;
 }
-
-
-
-
-
 
 
 
@@ -209,5 +199,12 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 	}
 }
 
+
+struct Client * search(struct Client * sentinelle,int numeroTel) {
+	if (sentinelle->fg != NULL)
+		return searchR (sentinelle->fg, numeroTel);
+    else
+        return NULL;
+}
 
 
