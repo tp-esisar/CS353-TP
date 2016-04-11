@@ -79,19 +79,6 @@ struct Client * searchR(struct Client * noeud,int numeroTel) {
 
 
 
-struct Client* insert(struct Client* root, int num, int prixAppel) {
-	if (root == NULL) // On a trouvé une case de vide et donc on peut insérer l'élement
-		return createNode(num,1,prixAppel);
-	else {
-		if (num < root->num) { //Soit l'élément est plus petit que l'actuel et donc on doit l'insérer à sa gauche
-			root->fg=insert(root->fg,num,prixAppel);
-		}
-		if (num > root->num) { //Soit l'élément est plus grand que l'actuel et donc on doit l'insérer à sa droite
-			root->fd=insert(root->fd,num,prixAppel);
-		}
-		return root;
-	}
-}
 
 
 
@@ -130,5 +117,97 @@ struct Client * deleteNode(struct Client * abr, int numeroTel) {
 	}
 
 }
+
+Client* oncle(Client* x) {
+	if (papy(x)->fg == x->pere)
+		return papy(x)->fd;
+	else
+		return papy(x)->fg;
+}
+
+//fonctions d'insertion
+
+int isLeft()
+
+void left_rotate( struct Client *y) {
+	Client* pere = y->pere;
+	Client* fd = y->fd;
+	Client* temp;
+	if (pere->fd == y) {
+		pere->fd = fd;
+	else
+		pere->fg = fd;
+	fd->pere = pere;
+	temp = fd->fg;
+	fd->fg = y;
+	y->fd = temp;
+	y->pere = fd;
+}
+void right_rotate( struct Client *y) {
+	Client* pere = y->pere;
+	Client* fg = y->fg;
+	Client* temp;
+	if (pere->fd == y) {
+		pere->fd = fg;
+	else
+		pere->fg = fg;
+	fg->pere = pere;
+	temp = fg->fd;
+	fg->fd = y;
+	y->fg = temp;
+	y->pere = fg;
+}
+
+
+Client* classic_insert(Client* sentinelle, Client* newNode) {
+	Client* root = sentinelle->fd;
+	if (root == sentinelle) { // On a trouvé une case de vide et donc on peut insérer l'élement
+		newNode->pere = newNode->fg = newNode->fd = sentinelle;
+		return newNode;
+	}
+	else {
+		if (num < root->num) { //Soit l'élément est plus petit que l'actuel et donc on doit l'insérer à sa gauche
+			root->fg=classic_insert(sentinelle,root->fg,num,newNode);
+			root->fg->pere = root;
+		}
+		if (num > root->num) { //Soit l'élément est plus grand que l'actuel et donc on doit l'insérer à sa droite
+			root->fd=classic_insert(sentinelle,root->fd,num,newNode);
+			root->fd->pere = root;
+		}
+		return root;
+	}
+}
+
+
+
+
+struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel) {
+	Client* newNode = createNode(numeroTel, 1, prixAppel, RED);
+	sentinelle->fd = sentinelle->fg = classic_insert(sentinelle, newNode);
+	Client* x = newNode;
+	while(1) {
+		if (x->pere == sentinelle) {//on est root
+			x->color = BLACK;
+			return sentinelle;
+		}
+		if (papy(x) == sentinelle) {
+			return sentinelle;
+		}
+		if (x->pere->color != BLACK) {
+			if (oncle(x)->color == RED) {
+				
+				x->pere->color = oncle(x)->color = BLACK;
+				papy(x)->color = RED;
+				x = papy(x);
+				continue;
+			}
+			else {
+				
+				
+			}
+		}
+	}
+}
+
 
 
