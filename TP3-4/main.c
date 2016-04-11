@@ -11,7 +11,7 @@ int main()
 {
 	 int i, numeroTel, prixAppel;
 	 struct Client * recherche = NULL;
-	 struct Client * arbre = NULL;
+	 struct Client * sentinelle = NULL;
 
 	 // Aide au calcul du pourcentage d'avancement
 	 int pas = NBLOGLINE/100;
@@ -25,10 +25,10 @@ int main()
 		 prixAppel = (rand() % 400)+1;
 
 		 //Recherche si le client existe déjà dans l'arbre
-		 recherche = search(arbre,numeroTel);
+		 recherche = search(sentinelle,numeroTel);
 
 		 if (recherche == NULL) //Si le client n'existe pas, on l'insére dans l'arbre
-            arbre = insert(arbre, numeroTel, prixAppel);
+             sentinelle = insert(sentinelle, numeroTel, prixAppel);
          else { //Sinon il faut le mettre à jour
                 recherche->nbAppel ++;
                 recherche->total += prixAppel;
@@ -41,7 +41,7 @@ int main()
 		 }
 	 }
 
-	 parcoursInfixe(arbre);
+	 parcoursInfixe(sentinelle);
 	 printf("======= Facturation appels telephoniques ======\n");
 	 return 0;
 }
