@@ -119,7 +119,7 @@ void right_rotate( struct Client *y) {
 
 Client* classic_insert(Client* sentinelle, Client* root, Client* newNode) {
 	if (root == sentinelle) { // On a trouvé une case de vide et donc on peut insérer l'élement
-		newNode->fg = newNode->fd = sentinelle;
+		newNode->pere = newNode->fg = newNode->fd = sentinelle;
 		return newNode;
 	}
 	else {
@@ -140,6 +140,7 @@ Client* classic_insert(Client* sentinelle, Client* root, Client* newNode) {
 
 struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel) {
 	Client* newNode = createNode(numeroTel, 1, prixAppel, RED);
+	newNode->fd = newNode->fg = sentinelle;
 	sentinelle->fd = sentinelle->fg = classic_insert(sentinelle, sentinelle->fd, newNode);
 	Client* x = newNode;
 	while(1) {
@@ -183,6 +184,7 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 				}//RL case
 			}
 		}
+		else return sentinelle;
 	}
 }
 

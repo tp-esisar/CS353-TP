@@ -47,12 +47,34 @@ struct Client * createSampleTree() {
   return sentinelle;
 }
 
+Client* testInsert() {
+  Client* sentinelle = createNode(0,0,0, BLACK);
+  sentinelle->pere = sentinelle->fd = sentinelle->fg = sentinelle;
+  sentinelle = insert(sentinelle,8,0);
+  sentinelle = insert(sentinelle,15,0);
+  sentinelle = insert(sentinelle,1,0);
+  sentinelle = insert(sentinelle,5,0);
+  sentinelle = insert(sentinelle,7,0);
+  sentinelle = insert(sentinelle,14,0);
+  sentinelle = insert(sentinelle,2,0);
+  sentinelle = insert(sentinelle,4,0);
+  sentinelle = insert(sentinelle,11,0);
+  
+  return sentinelle;
+}
+
 int main() {
-    Client* sentinelle = createSampleTree();
-    printf("\n\nParcours Prefixe : \n");
+  Client* sentinelle = createSampleTree();
+  printf("\n\nParcours Prefixe : \n");
 	parcoursPrefixe(sentinelle);
 	printf("\n\nParcours Infixe : \n");
-	parcoursInfixe(sentinelle);
+	//parcoursInfixe(sentinelle);
+  printf("\n\nParcours Infixe testInsert : \n");
+  sentinelle = testInsert();
+  //parcoursInfixe(sentinelle);
+  printf("\n\nParcours Prefixe testInsert : \n");
+parcoursPrefixe(sentinelle);
+  
 
     return 0;
 }

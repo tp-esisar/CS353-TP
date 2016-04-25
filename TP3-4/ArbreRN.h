@@ -27,6 +27,7 @@ struct Client * createNode(int numeroTel, int nbAppel,int cout, Color color);
 void parcoursPrefixe(struct Client * sentinelle);
 void parcoursInfixe(struct Client * sentinelle);
 struct Client * search(struct Client * sentinelle,int numeroTel);
+struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel);
 
 void left_rotate( struct Client *x);
 void right_rotate( struct Client *y);
