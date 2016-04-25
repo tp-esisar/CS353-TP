@@ -70,44 +70,6 @@ struct Client * searchR(struct Client * noeud,int numeroTel) {
 }
 
 
-
-
-struct Client * deleteNode(struct Client * abr, int numeroTel) {
-
-	Client* retour = NULL;
-	Client* elmSuiv = NULL;
-	int i = numeroTel+1;
-
-	if (abr == NULL) //Si l'arbre est vide ou que l'élément n'existe pas
-		return abr;
-
-	if (abr-> num == numeroTel) { //Si on a tourvé l'élement à supprimer
-		if (abr->fg == NULL) //Si n'a pas de fils gauche, on le supprime et on lit le fils droit à son père
-			retour = abr->fd;
-		else if (abr->fg == NULL) //Si n'a pas de fils droit, on le supprime et on lit le fils gauche à son père
-			retour = abr->fg;
-		else { //Si il a deux fils
-			while ( (elmSuiv = search(abr,i++)) == NULL); //On cherche l'élément suivant
-			retour = createNode(elmSuiv->num, elmSuiv->nbAppel, elmSuiv->total); //On recopie l'élément suivant, que l'on va placer à la place du client que l'on veut supprimer
-			retour->fg = abr->fg; //On renseigner ces fils (qui sont ceux de l'actuel client
-			retour->fd = deleteNode (abr->fd, elmSuiv->num); //On peut supprimer le client que l'on a copié
-		}
-		free(abr); //On supprime le client
-		return retour ; //On envoie au père son nouveau (ou inchangé) fils
-	}
-
-	else { //Si l'on a pas trouvé l'élément à supprimer
-        if (numeroTel > abr->num) //Si le n° du client à supprimer est plus grand que l'actuel on le cherche à droite
-		abr->fd = deleteNode (abr->fd, numeroTel);
-
-        else if (numeroTel < abr->num) //Si le n° du client à supprimer est plus petit que l'actuel on le cherche à gauche
-            abr->fg = deleteNode (abr->fg, numeroTel);
-
-        return abr;
-	}
-
-}
-
 Client* oncle(Client* x) {
 	if (papy(x)->fg == x->pere)
 		return papy(x)->fd;
@@ -117,13 +79,19 @@ Client* oncle(Client* x) {
 
 //fonctions d'insertion
 
-int isLeft()
+int isLeft(Client* x) {
+	if(x->pere->fg == x)
+		return 1;
+	else
+		return 0;
+}
+
 
 void left_rotate( struct Client *y) {
 	Client* pere = y->pere;
 	Client* fd = y->fd;
 	Client* temp;
-	if (pere->fd == y) {
+	if (pere->fd == y)
 		pere->fd = fd;
 	else
 		pere->fg = fd;
@@ -137,7 +105,7 @@ void right_rotate( struct Client *y) {
 	Client* pere = y->pere;
 	Client* fg = y->fg;
 	Client* temp;
-	if (pere->fd == y) {
+	if (pere->fd == y)
 		pere->fd = fg;
 	else
 		pere->fg = fg;
@@ -149,19 +117,18 @@ void right_rotate( struct Client *y) {
 }
 
 
-Client* classic_insert(Client* sentinelle, Client* newNode) {
-	Client* root = sentinelle->fd;
+Client* classic_insert(Client* sentinelle, Client* root, Client* newNode) {
 	if (root == sentinelle) { // On a trouvé une case de vide et donc on peut insérer l'élement
-		newNode->pere = newNode->fg = newNode->fd = sentinelle;
+		newNode->fg = newNode->fd = sentinelle;
 		return newNode;
 	}
 	else {
-		if (num < root->num) { //Soit l'élément est plus petit que l'actuel et donc on doit l'insérer à sa gauche
-			root->fg=classic_insert(sentinelle,root->fg,num,newNode);
+		if (newNode->num < root->num) { //Soit l'élément est plus petit que l'actuel et donc on doit l'insérer à sa gauche
+			root->fg=classic_insert(sentinelle,root->fg,newNode);
 			root->fg->pere = root;
 		}
-		if (num > root->num) { //Soit l'élément est plus grand que l'actuel et donc on doit l'insérer à sa droite
-			root->fd=classic_insert(sentinelle,root->fd,num,newNode);
+		if (newNode->num > root->num) { //Soit l'élément est plus grand que l'actuel et donc on doit l'insérer à sa droite
+			root->fd=classic_insert(sentinelle,root->fd,newNode);
 			root->fd->pere = root;
 		}
 		return root;
@@ -173,7 +140,7 @@ Client* classic_insert(Client* sentinelle, Client* newNode) {
 
 struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel) {
 	Client* newNode = createNode(numeroTel, 1, prixAppel, RED);
-	sentinelle->fd = sentinelle->fg = classic_insert(sentinelle, newNode);
+	sentinelle->fd = sentinelle->fg = classic_insert(sentinelle, sentinelle->fd, newNode);
 	Client* x = newNode;
 	while(1) {
 		if (x->pere == sentinelle) {//on est root
@@ -192,8 +159,28 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 				continue;
 			}
 			else {
-				
-				
+				if(isLeft(x->pere) && isLeft(x)) {
+					swapColor(x->pere,papy(x))
+					right_rotate(papy(x));
+					return sentinelle;
+				}//LL case
+				if(isLeft(x->pere) && !isLeft(x)) {
+					left_rotate(x->pere);
+					swapColor(x,papy(x))
+					right_rotate(papy(x));
+					return sentinelle;
+				}//LR case
+				if(!isLeft(x->pere) && !isLeft(x)) {
+					swapColor(x->pere,papy(x))
+					left_rotate(papy(x));
+					return sentinelle;
+				}//RR case
+				if(!isLeft(x->pere) && isLeft(x)) {
+					right_rotate(x->pere);
+					swapColor(x,papy(x))
+					left_rotate(papy(x));
+					return sentinelle;
+				}//RL case
 			}
 		}
 	}

@@ -18,7 +18,7 @@ struct Client {
 typedef struct Client Client;
 
 #define papy(X) X->pere->pere
-#define swapColor(X,Y) {Color swapColor_temp = X->color;X->color = Y->color;Y->color = temp}
+#define swapColor(X,Y) {Color swapColor_temp = X->color;X->color = Y->color;Y->color = swapColor_temp;}
 
 Client* oncle(Client* x);
 
