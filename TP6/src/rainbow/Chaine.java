@@ -17,7 +17,7 @@ public class Chaine {
 		}
 		
 		for (int i=0; i<1000; i++) {
-			hash = digest.digest(Integer.toString(px).getBytes());
+			hash = digest.digest(String.format("%06d", px) .getBytes());
 			px = reduction(hash, i);
 		}
 		
@@ -37,8 +37,5 @@ public class Chaine {
 		res = res % 1000000;
 		return res;
 	}
-	
-	
-	
 	
 }
