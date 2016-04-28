@@ -13,17 +13,18 @@ public class Main {
 		Chaine chaine = new Chaine();
 		HashTable table = new HashTable(10061);
 		
+		table.insert(chaine.CalculChaine(1), 1);
+			
+		
 		System.out.print("Avancement : 0%");
 		for (int i=1; i<=10000; i++) {
-			boolean boucle = true;
-			while(boucle) {
-				int px = rand.nextInt(1000000);
-				int p999 = chaine.CalculChaine(px);
-				if (table.insert(p999, px))
-					boucle = false;
-			}
+			int px = rand.nextInt(1000000);
+			int p999 = chaine.CalculChaine(px);
+			//System.out.println("Démarrage "+i);
+			table.insert(p999, px);
+				
 			if (i%100 == 0)
-				System.out.print("Avancement : "+i/100+"%\r");
+				System.out.print("\rAvancement : "+i/100+"%");
 		}
 			
 		System.out.print("\nCréation du fichier... ");
@@ -37,7 +38,6 @@ public class Main {
 			System.out.println("Erreur lors de l'écriture du fichier");
 			e.printStackTrace();
 		}
-		
 		System.out.println("\nFini ! ");
 	}
 }
