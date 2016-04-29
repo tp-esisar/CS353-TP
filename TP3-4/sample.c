@@ -73,8 +73,13 @@ int main() {
   sentinelle = testInsert();
   //parcoursInfixe(sentinelle);
   printf("\n\nParcours Prefixe testInsert : \n");
-parcoursPrefixe(sentinelle);
-  
+	parcoursPrefixe(sentinelle);
+  	printf("\n\nsuppression de 1 : \n");
+	deleteNode(sentinelle, 1);
+	parcoursPrefixe(sentinelle);
+	printf("\n\nsuppression de 7 : \n");
+	deleteNode(sentinelle, 7);
+	parcoursPrefixe(sentinelle);
 
     return 0;
 }

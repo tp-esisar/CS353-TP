@@ -56,15 +56,15 @@ void parcoursInfixe(struct Client * sentinelle) {
 		parcoursInfixeR (sentinelle->fg);
 }
 
-struct Client * searchR(struct Client * noeud,int numeroTel) {
+struct Client * searchR(struct Client* sentinelle, struct Client * noeud,int numeroTel) {
 	if (noeud->num == numeroTel)
 		return noeud;
-	else if (noeud->num == 0)
+	else if (noeud == sentinelle)
 		return NULL;
 	else if (noeud->num < numeroTel)
-		return searchR(noeud->fd,numeroTel);
+		return searchR(sentinelle,noeud->fd,numeroTel);
 	else if (noeud->num > numeroTel)
-		return searchR(noeud->fg,numeroTel);
+		return searchR(sentinelle,noeud->fg,numeroTel);
     else
         return NULL;
 }
@@ -82,7 +82,7 @@ Client* brother(Client* x) {
 		return x->pere->fd;
 	}
 	else {
-		return x->pere->fd;
+		return x->pere->fg;
 	}
 }
 
@@ -200,7 +200,7 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 
 struct Client * search(struct Client * sentinelle,int numeroTel) {
 	if (sentinelle->fg != NULL)
-		return searchR (sentinelle->fg, numeroTel);
+		return searchR (sentinelle,sentinelle->fg, numeroTel);
     else
         return NULL;
 }
@@ -269,14 +269,14 @@ void doubleBlack(Client* sentinelle, Client* node) {
 	if(node != sentinelle->fd) {
 		Client* bro = brother(node);
 		if(bro->color == BLACK) {
-			if(bro->fg == BLACK && bro->fd == BLACK) {
+			if(bro->fg->color == BLACK && bro->fd->color == BLACK) {
 				if(node->pere->color == RED) {
 					node->pere->color = BLACK;
 				}
 				else {
-					bro->color = RED
 					doubleBlack(sentinelle, node->pere); //le père ne peux pas être la sentinelle donc pas de truquage
 				}
+				bro->color = RED;
 			}
 			else {
 				Client* redNeph = redSon(bro);
@@ -300,8 +300,16 @@ void doubleBlack(Client* sentinelle, Client* node) {
 				}//RL case
 			}
 		}
-		else {
-			//selon position de s faire rotation et recoloration qui va bien
+		else {//bro is red
+			if(isLeft(bro)) {
+				swapColor(node->pere,bro);
+				right_rotate(node->pere);
+			}
+			else {
+				swapColor(node->pere,bro);
+				left_rotate(node->pere);
+				
+			}
 			doubleBlack(sentinelle, node);
 		}
 	}
@@ -314,7 +322,7 @@ void removeFromTree(Client* sentinelle, Client* node) {
 		takePlace(sentinelle,succ,node);
 	}
 	else {
-		fils = sonOrSenti(sentinelle,node);
+		Client* fils = sonOrSenti(sentinelle,node);
 		if(node->pere->fd == node) {
 			node->pere->fd = fils;
 		}
@@ -350,8 +358,10 @@ void removeFromTree(Client* sentinelle, Client* node) {
 
 void deleteNode(struct Client * sentinelle, int numeroTel) {
 	Client* node = search(sentinelle,numeroTel);
-	removeFromTree(node);
-	free(node);
+	if(node != NULL) {
+		removeFromTree(sentinelle, node);
+		free(node);
+	}
 }
 
 
