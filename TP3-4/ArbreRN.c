@@ -29,12 +29,12 @@ char toCharColor(Color color) {
 }
 
 void parcoursPrefixeR(struct Client * noeud) {
-	if (noeud->num == 0)
+	if (noeud->num == 0) //On regarde sur le noeud est la sentinelle
 		printf("S ");
-	else {
-		printf("%d(%c) ", noeud->num, toCharColor(noeud->color));
-		parcoursPrefixeR(noeud->fg);
-		parcoursPrefixeR(noeud->fd);
+	else {  //Sinon
+		printf("%d(%c) ", noeud->num, toCharColor(noeud->color)); //On affiche le noeud
+		parcoursPrefixeR(noeud->fg); //On parcours le sous-arbre gauche
+		parcoursPrefixeR(noeud->fd); //On parcours le sous-arbre droit
 	}
 }
 
@@ -44,10 +44,10 @@ void parcoursPrefixe(struct Client * sentinelle) {
 }
 
 void parcoursInfixeR(struct Client * noeud) {
-	if (noeud->num != 0) {
-		parcoursInfixeR(noeud->fg);
-		printf("[numero=\"%d\",\tnbAppel=\"%d\",\tprixTotal=\"%d\"\n",noeud->num,noeud->nbAppel,noeud->total);
-		parcoursInfixeR(noeud->fd);
+	if (noeud->num != 0) { //Si on est pas la sentinelle
+		parcoursInfixeR(noeud->fg); //Parcours sous-arbre gauche
+		printf("[numero=\"%d\",\tnbAppel=\"%d\",\tprixTotal=\"%d\"\n",noeud->num,noeud->nbAppel,noeud->total); //Print élément en cours
+		parcoursInfixeR(noeud->fd); //Parcours sous-arbre droit
 	}
 }
 
@@ -56,18 +56,27 @@ void parcoursInfixe(struct Client * sentinelle) {
 		parcoursInfixeR (sentinelle->fg);
 }
 
-struct Client * searchR(struct Client* sentinelle, struct Client * noeud,int numeroTel) {
-	if (noeud->num == numeroTel)
+
+struct Client * searchR(struct Client * noeud,int numeroTel) {
+	if (noeud->num == numeroTel) //Si on a trouvé le client
 		return noeud;
-	else if (noeud == sentinelle)
+	else if (noeud->num == 0) //Si on est tombé sur une feuille de l'arbre (sentinelle)
 		return NULL;
-	else if (noeud->num < numeroTel)
-		return searchR(sentinelle,noeud->fd,numeroTel);
-	else if (noeud->num > numeroTel)
-		return searchR(sentinelle,noeud->fg,numeroTel);
+	else if (noeud->num < numeroTel) //Si le numéro du client que l'on cherche est plus grand que l'actuel
+		return searchR(noeud->fd,numeroTel); //On le cherche à droite
+	else if (noeud->num > numeroTel) //Si le numéro du client que l'on cherche est plus petit que l'actuel
+		return searchR(noeud->fg,numeroTel); //On le cherche à gauche
     else
         return NULL;
 }
+
+struct Client * search(struct Client * sentinelle,int numeroTel) {
+	if (sentinelle->fg != NULL)
+		return searchR (sentinelle->fg, numeroTel);
+    else
+        return NULL;
+}
+
 
 
 Client* oncle(Client* x) {
@@ -197,13 +206,6 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 	}
 }
 
-
-struct Client * search(struct Client * sentinelle,int numeroTel) {
-	if (sentinelle->fg != NULL)
-		return searchR (sentinelle,sentinelle->fg, numeroTel);
-    else
-        return NULL;
-}
 
 void takePlace(Client* sentinelle, Client* n1, Client* n2) {
 	n1->pere = n2->pere;
@@ -363,7 +365,5 @@ void deleteNode(struct Client * sentinelle, int numeroTel) {
 		free(node);
 	}
 }
-
-
 
 
