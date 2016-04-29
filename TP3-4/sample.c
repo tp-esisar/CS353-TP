@@ -6,12 +6,13 @@ struct Client * createSampleTree() {
   Client* temp= NULL;
   Client* sentinelle = createNode(0,0,0, BLACK);
 
-  temp = createNode(7,0,0, BLACK);
+  temp = createNode(7,0,0, BLACK); //Racine de l'arbre
   temp->fg = createNode(2,0,0, RED);
   temp->fd = createNode(11,0,0, RED);
   temp->pere = sentinelle;
   sentinelle->fg = temp;
 
+	//Eléments de gauche de l'arbre
   temp->fg->fg = createNode(1,0,0, BLACK);
   temp->fg->fg->fg = sentinelle;
   temp->fg->fg->fd = sentinelle;
@@ -26,6 +27,7 @@ struct Client * createSampleTree() {
   temp->fg->fd->fg->fd = sentinelle;
   temp->fg->fd->fg->pere = temp->fg->fd;
 
+	//Eléments de droite de l'arbre
   temp->fd->fg = createNode(8,0,0, BLACK);
   temp->fd->fd = createNode(14,0,0, BLACK);
   temp->fd->pere = temp;
@@ -68,7 +70,7 @@ int main() {
   printf("\n\nParcours Prefixe : \n");
 	parcoursPrefixe(sentinelle);
 	printf("\n\nParcours Infixe : \n");
-	//parcoursInfixe(sentinelle);
+	parcoursInfixe(sentinelle);
   printf("\n\nParcours Infixe testInsert : \n");
   sentinelle = testInsert();
   //parcoursInfixe(sentinelle);
