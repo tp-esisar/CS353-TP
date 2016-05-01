@@ -61,27 +61,30 @@ Client* testInsert() {
   sentinelle = insert(sentinelle,2,0);
   sentinelle = insert(sentinelle,4,0);
   sentinelle = insert(sentinelle,11,0);
-  
+
   return sentinelle;
 }
 
 int main() {
-  Client* sentinelle = createSampleTree();
-  printf("\n\nParcours Prefixe : \n");
+	Client* sentinelle = createSampleTree();
+	/*printf("\n\nParcours Prefixe : \n");
 	parcoursPrefixe(sentinelle);
 	printf("\n\nParcours Infixe : \n");
 	parcoursInfixe(sentinelle);
-  printf("\n\nParcours Infixe testInsert : \n");
-  sentinelle = testInsert();
-  //parcoursInfixe(sentinelle);
-  printf("\n\nParcours Prefixe testInsert : \n");
+	printf("\n\nParcours Infixe testInsert : \n");*/
+
+	sentinelle = testInsert();
+	printf("\n\nParcours Infixe testInsert : \n");
+	parcoursInfixe(sentinelle);
+	printf("\n\nParcours Prefixe testInsert : \n");
 	parcoursPrefixe(sentinelle);
-  	printf("\n\nsuppression de 1 : \n");
+
+	/*printf("\n\nsuppression de 1 : \n");
 	deleteNode(sentinelle, 1);
 	parcoursPrefixe(sentinelle);
 	printf("\n\nsuppression de 7 : \n");
 	deleteNode(sentinelle, 7);
-	parcoursPrefixe(sentinelle);
+	parcoursPrefixe(sentinelle);*/
 
     return 0;
 }

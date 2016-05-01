@@ -11,7 +11,8 @@ int main()
 {
 	 int i, numeroTel, prixAppel;
 	 struct Client * recherche = NULL;
-	 struct Client * sentinelle = NULL;
+	 struct Client* sentinelle = createNode(0,0,0, BLACK);
+	 sentinelle->pere = sentinelle->fd = sentinelle->fg = sentinelle;
 
 	 // Aide au calcul du pourcentage d'avancement
 	 int pas = NBLOGLINE/100;

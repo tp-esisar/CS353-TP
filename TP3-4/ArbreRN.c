@@ -28,6 +28,7 @@ char toCharColor(Color color) {
 		return 'N';
 }
 
+//Fonctions de parcours de l'arbre
 void parcoursPrefixeR(struct Client * noeud) {
 	if (noeud->num == 0) //On regarde sur le noeud est la sentinelle
 		printf("S ");
@@ -56,7 +57,7 @@ void parcoursInfixe(struct Client * sentinelle) {
 		parcoursInfixeR (sentinelle->fg);
 }
 
-
+//Fonctions de recherche dans l'arbre
 struct Client * searchR(struct Client * noeud,int numeroTel) {
 	if (noeud->num == numeroTel) //Si on a trouvé le client
 		return noeud;
@@ -77,22 +78,19 @@ struct Client * search(struct Client * sentinelle,int numeroTel) {
         return NULL;
 }
 
-
-
+//Fonction d'accès
 Client* oncle(Client* x) {
-	if (papy(x)->fg == x->pere)
+	if (papy(x)->fg == x->pere) // Si le fils gauche de mon grand-père est mon père, c'est que mon onde est son fils droit
 		return papy(x)->fd;
-	else
+	else //Sinon c'est son fils gauche
 		return papy(x)->fg;
 }
 
 Client* brother(Client* x) {
-	if(x->pere->fg == x) {
+	if(x->pere->fg == x) // Si je suis le fils gauche de mon père, c'est que mon frère est le fils droit
 		return x->pere->fd;
-	}
-	else {
+	else //Sinon c'est qu'il est le fils gauche
 		return x->pere->fg;
-	}
 }
 
 //fonctions d'insertion
@@ -103,7 +101,6 @@ int isLeft(Client* x) {
 	else
 		return 0;
 }
-
 
 void left_rotate( struct Client *y) {
 	Client* pere = y->pere;
@@ -119,6 +116,7 @@ void left_rotate( struct Client *y) {
 	y->fd = temp;
 	y->pere = fd;
 }
+
 void right_rotate( struct Client *y) {
 	Client* pere = y->pere;
 	Client* fg = y->fg;
@@ -133,7 +131,6 @@ void right_rotate( struct Client *y) {
 	y->fg = temp;
 	y->pere = fg;
 }
-
 
 Client* classic_insert(Client* sentinelle, Client* root, Client* newNode) {
 	if (root == sentinelle) { // On a trouvé une case de vide et donc on peut insérer l'élement
@@ -152,9 +149,6 @@ Client* classic_insert(Client* sentinelle, Client* root, Client* newNode) {
 		return root;
 	}
 }
-
-
-
 
 struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel) {
 	Client* newNode = createNode(numeroTel, 1, prixAppel, RED);
