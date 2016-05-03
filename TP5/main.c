@@ -4,6 +4,38 @@
 
 #include "store.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void fullTableRandom(unsigned int seed) {
+	int randCodes[TABLE_SIZE];
+	char str[32];
+	int i,j,k,found,err;
+	srand(seed);
+	for(i = 0;i<TABLE_SIZE;i++) {
+		k = rand()%100000;
+		//printf("%d\t", k);
+		found = 0;
+		for(j = 0;j<i;j++) {
+			if(randCodes[j] == k) {
+				found = 1;
+				break;
+			}
+		}
+		if(!found) {
+			
+			sprintf(str, "itemRand no %d", i);
+			err = insertItem(k,str,k/100.0);
+			randCodes[i] = k;
+			printf("%d,",err);
+		}
+		else {
+			i--;
+		}
+	}
+	
+}
+
 
 int main()
 {
@@ -12,8 +44,8 @@ int main()
 
     // 
     init();
-
-    //
+	fullTableRandom(time(NULL));
+/*    //
     int r;
     r = insertItem(10001,"Sucre",1.20f);
     printf("Resultat Insertion 10001 = %d\n",r);
@@ -27,7 +59,7 @@ int main()
     r = insertItem(10004,"Sel",0.50f);
     printf("Resultat Insertion 10004 = %d\n",r);
 
-    //
+*/    //
     dumpItems();
 
 

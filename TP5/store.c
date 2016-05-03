@@ -59,7 +59,7 @@ int insRec(Item k, int try) {
 		hash_table[i] = k;
 		return SUCCESS;
 	}
-	if(hash_table[i].code == DELETED_ITEM) {
+	else if(hash_table[i].code == DELETED_ITEM) {
 		if(present(k,try)) return INSERT_ALREADY_EXIST;
 		else {
 			hash_table[i] = k;
