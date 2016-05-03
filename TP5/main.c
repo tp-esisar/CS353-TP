@@ -10,7 +10,7 @@
 void fullTableRandom(unsigned int seed) {
 	int randCodes[TABLE_SIZE];
 	char str[32];
-	int i,j,k,found,err;
+	int i,j,k,found;
 	srand(seed);
 	for(i = 0;i<TABLE_SIZE;i++) {
 		k = rand()%100000;
@@ -25,9 +25,8 @@ void fullTableRandom(unsigned int seed) {
 		if(!found) {
 			
 			sprintf(str, "itemRand no %d", i);
-			err = insertItem(k,str,k/100.0);
+			insertItem(k,str,k/100.0);
 			randCodes[i] = k;
-			printf("%d,",err);
 		}
 		else {
 			i--;

@@ -29,9 +29,9 @@
 
 /*----------------------------------------------------------------------------
  * Definition de la structure d'un produit
- * Chaque produit est identifié par 3 champs :
+ * Chaque produit est identifiï¿½ par 3 champsï¿½:
  *     - son code sur 5 chiffres
- *     - son libellé
+ *     - son libellï¿½
  *     - son prix en euros
  *
  *----------------------------------------------------------------------------*/
@@ -62,17 +62,17 @@ int hashkey(int itemCode,int nbTry);
 
 
 /*----------------------------------------------------------------------------
- * Cette fonction insère le produit indiqué dans la table de hachage.
- * Si le produit est inséré avec succès, alors la fonction retourne SUCCESS (0)
- * Si le produit existe déjà dans la table, alors la fonction retourne INSERT_ALREADY_EXIST (-1),
- * et la table de hachage n'est pas modifiée
+ * Cette fonction insï¿½re le produit indiquï¿½ dans la table de hachage.
+ * Si le produit est insï¿½rï¿½ avec succï¿½s, alors la fonction retourne SUCCESS (0)
+ * Si le produit existe dï¿½jï¿½ dans la table, alors la fonction retourne INSERT_ALREADY_EXIST (-1),
+ * et la table de hachage n'est pas modifiï¿½e
  * Si la table est pleine, alors la fonction retourne TABLE_FULL (-2).
  *----------------------------------------------------------------------------*/
 int insertItem(int itemCode, char* itemName, float itemPrice);
 
 /*----------------------------------------------------------------------------
  * fonction de suppression d'un produit du magasin
- * Si le produit est supprimé avec succès, alors la fonction retourne SUCCESS (0)
+ * Si le produit est supprimï¿½ avec succï¿½s, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne DELETE_NO_ROW (-4)
  *----------------------------------------------------------------------------*/
 int suppressItem(int itemCode);
@@ -80,7 +80,7 @@ int suppressItem(int itemCode);
 /*----------------------------------------------------------------------------
  * Pour chaque produit, cette fonction affiche sur une ligne
  * le code du produit
- * son libellé
+ * son libellï¿½
  * son prix
  * son index dans la table de hashage
  * sa valeur de hash
@@ -95,30 +95,30 @@ void dumpItems();
 float getPrice(int itemCode);
 
 /*----------------------------------------------------------------------------
- *  fonction de mise à jour d'un produit :
- * Si le produit est mis à jour avec succès, alors la fonction retourne SUCCESS (0)
+ *  fonction de mise ï¿½ jour d'un produitï¿½:
+ * Si le produit est mis ï¿½ jour avec succï¿½s, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne UPDATE_NO_ROW (-5)
  *----------------------------------------------------------------------------*/
 int updateItem(int itemCode, char* itemName, float itemPrice);
 
 
 /*----------------------------------------------------------------------------
- * la fonction de réorganisation in situ :
+ * la fonction de rï¿½organisation in situï¿½:
  *----------------------------------------------------------------------------*/
 void rebuildTable();
 
 /*----------------------------------------------------------------------------
- * Fonction simple de recherche des produits par libellé :
+ * Fonction simple de recherche des produits par libellï¿½ï¿½:
  *
- * Cette fonction retourne un tableau avec tous les produits dont le libellé est égal à itemName.
- * Exemple : si il y a trois produits 1 - « Sel » , 2 - « Sel» et 3-« Confiture », alors
- * findItem(« Sel »)
- * retourne les deux produits 1-« Sel » et 2-« Sel ».
+ * Cette fonction retourne un tableau avec tous les produits dont le libellï¿½ est ï¿½gal ï¿½ itemName.
+ * Exempleï¿½: si il y a trois produits 1 - ï¿½ï¿½Selï¿½ï¿½ , 2 - ï¿½ï¿½Selï¿½ et 3-ï¿½ï¿½Confitureï¿½ï¿½, alors
+ * findItem(ï¿½ï¿½Selï¿½ï¿½)
+ * retourne les deux produits 1-ï¿½ï¿½Selï¿½ï¿½ et 2-ï¿½ï¿½Selï¿½ï¿½.
  *----------------------------------------------------------------------------*/
 Item* findItem(char* itemName);
 
 /*----------------------------------------------------------------------------
- * Fonction de recherche des produits par libellé avec index
+ * Fonction de recherche des produits par libellï¿½ï¿½avec index
  *----------------------------------------------------------------------------*/
 Item* findItemWithIndex(char* itemName);
 

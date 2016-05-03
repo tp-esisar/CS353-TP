@@ -11,7 +11,7 @@
 
 /*----------------------------------------------------------------------------
  * Cette fonction initialise le tableau hash_table
- * en positionnant tous les elements à NULL_ITEM
+ * en positionnant tous les elements ï¿½ NULL_ITEM
  *----------------------------------------------------------------------------*/
 void init()
 {
@@ -36,10 +36,10 @@ int hashkey(int itemCode,int nbTry)
 
 
 /*----------------------------------------------------------------------------
- * Cette fonction insère le produit indiqué dans la table de hachage.
- * Si le produit est inséré avec succès, alors la fonction retourne SUCCESS (0)
- * Si le produit existe déjà dans la table, alors la fonction retourne INSERT_ALREADY_EXIST (-1),
- * et la table de hachage n'est pas modifiée
+ * Cette fonction insï¿½re le produit indiquï¿½ dans la table de hachage.
+ * Si le produit est insï¿½rï¿½ avec succï¿½s, alors la fonction retourne SUCCESS (0)
+ * Si le produit existe dï¿½jï¿½ dans la table, alors la fonction retourne INSERT_ALREADY_EXIST (-1),
+ * et la table de hachage n'est pas modifiï¿½e
  * Si la table est pleine, alors la fonction retourne TABLE_FULL (-2).
  *----------------------------------------------------------------------------*/
  
@@ -85,8 +85,8 @@ int insertItem(int itemCode, char* itemName, float itemPrice) {
 }
 
 /*----------------------------------------------------------------------------
- * Fonction qui permet de rechercher un élément par son numérp
- * Et retourne l'indice ou il est présent dans la hash table.
+ * Fonction qui permet de rechercher un ï¿½lï¿½ment par son numï¿½rp
+ * Et retourne l'indice ou il est prï¿½sent dans la hash table.
  *----------------------------------------------------------------------------*/
 int searchItem(int itemCode) {
 	int i = 0, hash;
@@ -94,13 +94,13 @@ int searchItem(int itemCode) {
 		hash = hashkey (itemCode, i++);
 		if (hash_table[hash].code == itemCode)
 			return hash;
-	} while (hash_table[hash].code != NULL_ITEM);
+	} while (hash_table[hash].code != NULL_ITEM && i<TABLE_SIZE);
 	return -1;
 }
 
 /*----------------------------------------------------------------------------
  * fonction de suppression d'un produit du magasin
- * Si le produit est supprimé avec succès, alors la fonction retourne SUCCESS (0)
+ * Si le produit est supprimï¿½ avec succï¿½s, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne DELETE_NO_ROW (-4)
  *----------------------------------------------------------------------------*/
 int suppressItem(int itemCode)
@@ -118,7 +118,7 @@ int suppressItem(int itemCode)
 /*----------------------------------------------------------------------------
  * Pour chaque produit, cette fonction affiche sur une ligne
  * le code du produit
- * son libellé
+ * son libellï¿½
  * son prix
  * son index dans la table de hashage
  * sa valeur de hash
@@ -150,8 +150,8 @@ float getPrice(int itemCode)
 
 
 /*----------------------------------------------------------------------------
- *  fonction de mise à jour d'un produit :
- * Si le produit est mis à jour avec succès, alors la fonction retourne SUCCESS (0)
+ *  fonction de mise ï¿½ jour d'un produitï¿½:
+ * Si le produit est mis ï¿½ jour avec succï¿½s, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne UPDATE_NO_ROW (-5)
  *----------------------------------------------------------------------------*/
 int updateItem(int itemCode, char* itemName, float itemPrice)
@@ -171,20 +171,20 @@ int updateItem(int itemCode, char* itemName, float itemPrice)
 }
 
 /*----------------------------------------------------------------------------
- * la fonction de réorganisation in situ :
+ * la fonction de rï¿½organisation in situï¿½:
  *----------------------------------------------------------------------------*/
 void rebuildTable()
 {
 	int i;
-//Au début, tout les éléments sont sales	
+//Au dï¿½but, tout les ï¿½lï¿½ments sont sales	
 	for (i=0; i<TABLE_SIZE; i++)
 		if (hash_table[i].code !=  NULL_ITEM)
 			hash_table[i].dirty = true;
 
-//On nettoie tout les éléments
+//On nettoie tout les ï¿½lï¿½ments
 	/*for (i=0; i<TABLE_SIZE; i++)
 		if (hash_table[i].code > 0 && hash_table[i].dirty == true) {
-			//Procédure de déplacement
+			//Procï¿½dure de dï¿½placement
 				do {
 					hash = hashkey (itemCode, i++);
 					if (hash_table[hash].code == itemCode)
@@ -194,7 +194,7 @@ void rebuildTable()
 
 
 
-			//Procédure d'échange
+			//Procï¿½dure d'ï¿½change
 			Item temp;
 			hash_table[i]
 
@@ -209,19 +209,19 @@ void rebuildTable()
 		}
 	}*/
 
-//On vide les éléments DELETED
+//On vide les ï¿½lï¿½ments DELETED
 	for (i=0; i<TABLE_SIZE; i++)
 		if (hash_table[i].code ==  DELETED_ITEM)
 			hash_table[i].code = NULL_ITEM;
 }
 
 /*----------------------------------------------------------------------------
- * Fonction simple de recherche des produits par libellé :
+ * Fonction simple de recherche des produits par libellï¿½ï¿½:
  *  
- * Cette fonction retourne un tableau avec tous les produits dont le libellé est égal à itemName.
- * Exemple : si il y a trois produits 1 - « Sel » , 2 - « Sel» et 3-« Confiture », alors
- * findItem(« Sel »)
- * retourne les deux produits 1-« Sel » et 2-« Sel ».
+ * Cette fonction retourne un tableau avec tous les produits dont le libellï¿½ est ï¿½gal ï¿½ itemName.
+ * Exempleï¿½: si il y a trois produits 1 - ï¿½ï¿½Selï¿½ï¿½ , 2 - ï¿½ï¿½Selï¿½ et 3-ï¿½ï¿½Confitureï¿½ï¿½, alors
+ * findItem(ï¿½ï¿½Selï¿½ï¿½)
+ * retourne les deux produits 1-ï¿½ï¿½Selï¿½ï¿½ et 2-ï¿½ï¿½Selï¿½ï¿½.
  *----------------------------------------------------------------------------*/
 Item* findItem(char* itemName)
 {
@@ -229,7 +229,7 @@ Item* findItem(char* itemName)
 }
 
 /*----------------------------------------------------------------------------
- * Fonction de recherche des produits par libellé avec index
+ * Fonction de recherche des produits par libellï¿½ï¿½avec index
  *----------------------------------------------------------------------------*/
 Item* findItemWithIndex(char* itemName)
 {
