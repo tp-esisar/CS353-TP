@@ -31,6 +31,7 @@ struct Client * insert(struct Client * sentinelle, int numeroTel, int prixAppel)
 void deleteNode(struct Client * sentinelle, int numeroTel);
 void left_rotate( struct Client *x);
 void right_rotate( struct Client *y);
+void freeTree(Client* sentinelle);
 
 
 #endif

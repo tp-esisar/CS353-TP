@@ -207,17 +207,13 @@ void takePlace(Client* sentinelle, Client* n1, Client* n2) {
 	n1->fg = n2->fg;
 	n1->color = n2->color;
 	if(!isLeft(n2)) {
-		n1->pere->fd = n1;
+		n2->pere->fd = n1;
 	}
 	if(isLeft(n2)) {
-		n1->pere->fg = n1;
+		n2->pere->fg = n1;
 	}
-	if(n1->fd != sentinelle) {
-		n1->fd->pere = n1;
-	}
-	if(n1->fg != sentinelle) {
-		n1->fg->pere = n1;
-	}
+	n2->fd->pere = n1; //on pourri la sentinelle mais osef
+	n2->fg->pere = n1;
 }
 
 Client* sonOrSenti(Client* sentinelle, Client* node) {
@@ -270,9 +266,9 @@ void doubleBlack(Client* sentinelle, Client* node) {
 					node->pere->color = BLACK;
 				}
 				else {
+					bro->color = RED;
 					doubleBlack(sentinelle, node->pere); //le père ne peux pas être la sentinelle donc pas de truquage
 				}
-				bro->color = RED;
 			}
 			else {
 				Client* redNeph = redSon(bro);
@@ -282,7 +278,7 @@ void doubleBlack(Client* sentinelle, Client* node) {
 				}//LL case
 				if(isLeft(bro) && !isLeft(redNeph)) {
 					left_rotate(bro);
-					redNeph->color = BLACK;
+					swapColor(redNeph,bro);
 					right_rotate(node->pere);
 				}//LR case
 				if(!isLeft(bro) && !isLeft(redNeph)) {
@@ -291,7 +287,7 @@ void doubleBlack(Client* sentinelle, Client* node) {
 				}//RR case
 				if(!isLeft(bro) && isLeft(redNeph)) {
 					right_rotate(bro);
-					redNeph->color = BLACK;
+					swapColor(redNeph,bro);
 					left_rotate(node->pere);
 				}//RL case
 			}
@@ -311,9 +307,10 @@ void doubleBlack(Client* sentinelle, Client* node) {
 	}
 }
 
+
 void removeFromTree(Client* sentinelle, Client* node) {
 	if(node->fd != sentinelle && node->fg != sentinelle) {
-		Client* succ = search(sentinelle,node->num+1);
+		Client* succ = search(sentinelle,node->num+1); //ne peux pas renvoyer null car toujours un succ dans ce cas (sinon un seul fils)
 		removeFromTree(sentinelle, succ);
 		takePlace(sentinelle,succ,node);
 	}
@@ -326,9 +323,12 @@ void removeFromTree(Client* sentinelle, Client* node) {
 			node->pere->fg = fils;
 		}
 		fils->pere = node->pere; //on ignore le cas de la sentinelle (sera réglé après)
-		fils->color = BLACK;
-		if(fils->color == BLACK && node->color == BLACK) {
+		
+		if(node->color == BLACK && fils->color == BLACK) {
 			doubleBlack(sentinelle, fils); //neccessite une sentinelle avec un père truqué
+		}
+		else {
+			fils->color = BLACK;
 		}
 		if(fils == sentinelle) {//on remet la sentinelle en place
 			fils->pere = sentinelle;
@@ -354,10 +354,28 @@ void removeFromTree(Client* sentinelle, Client* node) {
 
 void deleteNode(struct Client * sentinelle, int numeroTel) {
 	Client* node = search(sentinelle,numeroTel);
-	if(node != NULL) {
+	if(node != NULL && node != sentinelle) {
 		removeFromTree(sentinelle, node);
 		free(node);
 	}
 }
+
+
+void freeSonsRec(Client* sentinelle, Client* node) {
+	if(node != sentinelle) {
+		if(node->fd != sentinelle) 
+			freeSonsRec(sentinelle,node->fd);
+		if(node->fg != sentinelle)
+			freeSonsRec(sentinelle,node->fg);
+		free(node);
+	}
+}
+
+void freeTree(Client* sentinelle) {
+	freeSonsRec(sentinelle,sentinelle->fd);
+	free(sentinelle);
+}
+
+
 
 
