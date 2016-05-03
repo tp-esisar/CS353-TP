@@ -42,9 +42,43 @@ int hashkey(int itemCode,int nbTry)
  * et la table de hachage n'est pas modifiée
  * Si la table est pleine, alors la fonction retourne TABLE_FULL (-2).
  *----------------------------------------------------------------------------*/
-int insertItem(int itemCode, char* itemName, float itemPrice)
-{
-   return SUCCESS;
+ 
+int present(Item k, int try) {
+	int i = hashkey(k.code,try);
+	if(hash_table[i].code == k.code) return 1;
+	if(hash_table[i].code == NULL_ITEM) return 0;
+	else return present(k,try+1);
+}
+
+
+int insRec(Item k, int try) {
+	if(try >= TABLE_SIZE) return TABLE_FULL;
+	int i = hashkey(k.code,try);
+	if(hash_table[i].code == k.code) return INSERT_ALREADY_EXIST;
+	if(hash_table[i].code == NULL_ITEM) {
+		hash_table[i] = k;
+		return SUCCESS;
+	}
+	if(hash_table[i].code == DELETED_ITEM) {
+		if(present(k,try)) return INSERT_ALREADY_EXIST;
+		else {
+			hash_table[i] = k;
+			return SUCCESS;
+		}
+	}
+	else {
+		return insRec(k,try+1);
+	}
+}
+
+int insertItem(int itemCode, char* itemName, float itemPrice) {
+	Item k;
+	k.code = itemCode;
+	int i = strlen(itemName)*sizeof(char);
+	memcpy(k.name,itemName,(i>32)?32:i);
+	k.price = itemPrice;
+	k.dirty = false;
+	return insRec(k,0);
 }
 
 /*----------------------------------------------------------------------------
