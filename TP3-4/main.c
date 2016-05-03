@@ -5,7 +5,8 @@
 // Nombre total de lignes dans le fichier
 #define NBLOGLINE 20000000
 // Nombre de clients
-#define NBCLIENT 20000
+//#define NBCLIENT 20000
+#define NBCLIENT 10
 
 int main()
 {

@@ -58,22 +58,21 @@ void parcoursInfixe(struct Client * sentinelle) {
 }
 
 //Fonctions de recherche dans l'arbre
-struct Client * searchR(struct Client * noeud,int numeroTel) {
-	if (noeud->num == numeroTel) //Si on a trouvé le client
-		return noeud;
-	else if (noeud->num == 0) //Si on est tombé sur une feuille de l'arbre (sentinelle)
+struct Client * searchR(Client* sentinelle, struct Client * noeud,int numeroTel) {
+	if (noeud == sentinelle) //Si on a trouvé le client
 		return NULL;
+	else if (noeud->num == numeroTel) //Si on est tombé sur une feuille de l'arbre (sentinelle)
+		return noeud;
 	else if (noeud->num < numeroTel) //Si le numéro du client que l'on cherche est plus grand que l'actuel
-		return searchR(noeud->fd,numeroTel); //On le cherche à droite
-	else if (noeud->num > numeroTel) //Si le numéro du client que l'on cherche est plus petit que l'actuel
-		return searchR(noeud->fg,numeroTel); //On le cherche à gauche
-    else
-        return NULL;
+		return searchR(sentinelle,noeud->fd,numeroTel); //On le cherche à droite
+	else //Si le numéro du client que l'on cherche est plus petit que l'actuel
+		return searchR(sentinelle,noeud->fg,numeroTel); //On le cherche à gauche
+	
 }
 
 struct Client * search(struct Client * sentinelle,int numeroTel) {
-	if (sentinelle->fg != NULL)
-		return searchR (sentinelle->fg, numeroTel);
+	if (sentinelle->fg != NULL && sentinelle->fg != sentinelle)
+		return searchR (sentinelle, sentinelle->fg, numeroTel);
     else
         return NULL;
 }
