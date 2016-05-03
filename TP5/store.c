@@ -29,7 +29,9 @@ void init()
  *----------------------------------------------------------------------------*/
 int hashkey(int itemCode,int nbTry)
 {
-    return 0;
+	int h1 = itemCode % TABLE_SIZE;
+	int h2 = 1 + (itemCode % (TABLE_SIZE-1));
+	return (h1 + nbTry * h2) % TABLE_SIZE;
 }
 
 
@@ -46,13 +48,34 @@ int insertItem(int itemCode, char* itemName, float itemPrice)
 }
 
 /*----------------------------------------------------------------------------
+ * Fonction qui permet de rechercher un élément par son numérp
+ * Et retourne l'indice ou il est présent dans la hash table.
+ *----------------------------------------------------------------------------*/
+int searchItem(int itemCode) {
+	int i = 0, hash;
+	do {
+		hash = hashkey (itemCode, i++);
+		if (hash_table[hash].code == itemCode)
+			return hash;
+	} while (hash_table[hash].code != NULL_ITEM);
+	return -1;
+}
+
+/*----------------------------------------------------------------------------
  * fonction de suppression d'un produit du magasin
  * Si le produit est supprimé avec succès, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne DELETE_NO_ROW (-4)
  *----------------------------------------------------------------------------*/
 int suppressItem(int itemCode)
 {
-  return SUCCESS;
+	int indice = searchItem(itemCode);
+	if (indice != -1) {
+		hash_table[indice].code = DELETED_ITEM;
+    		hash_table[indice].price = 0.00f;
+		return SUCCESS;
+	}
+		
+	return DELETE_NO_ROW;
 }
 
 /*----------------------------------------------------------------------------
@@ -65,6 +88,13 @@ int suppressItem(int itemCode)
  *----------------------------------------------------------------------------*/
 void dumpItems()
 {
+	int i, indice;
+	printf("CODE\tLIBELLE\t\tPRIX\tINDEX\n");
+	for (i=0; i<100000; i++) {
+		indice = searchItem(i);
+		if (indice != -1)
+			printf("%d\t%s\t%f0.2\t%d", hash_table[indice].code, hash_table[indice].name, hash_table[indice].price, indice);
+	}
 }
 
 
@@ -74,7 +104,10 @@ void dumpItems()
  *----------------------------------------------------------------------------*/
 float getPrice(int itemCode)
 {
-  return SELECT_NO_ROW;
+	int indice = searchItem(itemCode);
+	if (indice != -1)
+		return hash_table[indice].price;  
+	return SELECT_NO_ROW;
 }
 
 
