@@ -74,8 +74,11 @@ int insRec(Item k, int try) {
 int insertItem(int itemCode, char* itemName, float itemPrice) {
 	Item k;
 	k.code = itemCode;
-	int i = strlen(itemName)*sizeof(char);
-	memcpy(k.name,itemName,(i>32)?32:i);
+	int i = strlen(itemName);
+	memcpy(k.name,itemName,((i>32)?32:i)*sizeof(char));
+	for (i=strlen(itemName); i<31; i++)
+		k.name[i] = ' ';
+	k.name[i] = '\0';
 	k.price = itemPrice;
 	k.dirty = false;
 	return insRec(k,0);
@@ -123,11 +126,11 @@ int suppressItem(int itemCode)
 void dumpItems()
 {
 	int i, indice;
-	printf("CODE\tLIBELLE\t\tPRIX\tINDEX\n");
+	printf("CODE\tLIBELLE\t\t\t\tPRIX\tINDEX\n");
 	for (i=0; i<100000; i++) {
 		indice = searchItem(i);
 		if (indice != -1)
-			printf("%d\t%s\t%f0.2\t%d", hash_table[indice].code, hash_table[indice].name, hash_table[indice].price, indice);
+			printf("%d\t%s\t%0.2f\t%d\n", hash_table[indice].code, hash_table[indice].name, hash_table[indice].price, indice);
 	}
 }
 
@@ -151,9 +154,20 @@ float getPrice(int itemCode)
  * Si le produit est mis à jour avec succès, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne UPDATE_NO_ROW (-5)
  *----------------------------------------------------------------------------*/
-int updateItem(int itemCode, int itemName, float itemPrice)
+int updateItem(int itemCode, char* itemName, float itemPrice)
 {
-  return SUCCESS;
+	int indice = searchItem(itemCode);
+	int i = strlen(itemName);
+
+	if (indice != -1) {
+		memcpy(hash_table[indice].name,itemName,((i>32)?32:i)*sizeof(char));
+		for (i=strlen(itemName); i<31; i++)
+			hash_table[indice].name[i] = ' ';
+		hash_table[indice].name[i] = '\0';
+		hash_table[indice].price = itemPrice;
+		return SUCCESS;  
+	}
+	return UPDATE_NO_ROW;
 }
 
 /*----------------------------------------------------------------------------
@@ -161,6 +175,44 @@ int updateItem(int itemCode, int itemName, float itemPrice)
  *----------------------------------------------------------------------------*/
 void rebuildTable()
 {
+	int i;
+//Au début, tout les éléments sont sales	
+	for (i=0; i<TABLE_SIZE; i++)
+		if (hash_table[i].code !=  NULL_ITEM)
+			hash_table[i].dirty = true;
+
+//On nettoie tout les éléments
+	/*for (i=0; i<TABLE_SIZE; i++)
+		if (hash_table[i].code > 0 && hash_table[i].dirty == true) {
+			//Procédure de déplacement
+				do {
+					hash = hashkey (itemCode, i++);
+					if (hash_table[hash].code == itemCode)
+						return hash;
+				} while (hash_table[hash].code != NULL_ITEM);
+			
+
+
+
+			//Procédure d'échange
+			Item temp;
+			hash_table[i]
+
+
+				int code;
+				char name[ITEM_NAME_SIZE];
+				float price;
+				bool dirty;
+
+
+
+		}
+	}*/
+
+//On vide les éléments DELETED
+	for (i=0; i<TABLE_SIZE; i++)
+		if (hash_table[i].code ==  DELETED_ITEM)
+			hash_table[i].code = NULL_ITEM;
 }
 
 /*----------------------------------------------------------------------------

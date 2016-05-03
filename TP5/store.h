@@ -99,7 +99,7 @@ float getPrice(int itemCode);
  * Si le produit est mis à jour avec succès, alors la fonction retourne SUCCESS (0)
  * Si le produit n'existe pas, alors la fonction retourne UPDATE_NO_ROW (-5)
  *----------------------------------------------------------------------------*/
-int updateItem(int itemCode, int itemName, float itemPrice);
+int updateItem(int itemCode, char* itemName, float itemPrice);
 
 
 /*----------------------------------------------------------------------------
