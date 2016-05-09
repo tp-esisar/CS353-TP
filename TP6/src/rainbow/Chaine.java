@@ -4,27 +4,30 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Chaine {
+	private MessageDigest digest = null;
 	
-	int CalculChaine (int px) {
-		byte[] hash;
-		
-		MessageDigest digest = null;
+	public Chaine(){
 		try {
 			digest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("Erreur d'initialisation du cryptage MD5");
 			System.exit(1);
 		}
-		
-		for (int i=0; i<1000; i++) {
-			hash = digest.digest(String.format("%06d", px) .getBytes());
+	}
+	
+	public int CalculChaine (int i, int px) {
+		byte[] hash;
+				
+		for ( ; i<1000; i++) {
+			hash = md5(px);
 			px = reduction(hash, i);
+			//System.out.println("- "+i +" / "+ px);
 		}
 		
 		return px;
 	}
 	
-	int reduction(byte[] hash, int num) {
+	public int reduction(byte[] hash, int num) {
 		int res = num;
 		int mult = 1;
 		for (int i = 0; i < 4; i++) {
@@ -38,4 +41,7 @@ public class Chaine {
 		return res;
 	}
 	
+	public byte[] md5(int px) {
+		return digest.digest(String.format("%06d", px) .getBytes());
+	}
 }

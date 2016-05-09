@@ -18,10 +18,9 @@ public class HashTable implements Serializable {
 		int indice, i=0;
 		
 		do {
-			//System.out.println(i);
 			indice = h(p999, i++);
 			
-			if (table[indice].getP999() == p999)
+			if (table[indice].getP999() == p999 || i>999)
 				return false;
 			
 		}while (table[indice].getP999() != -1);
@@ -36,4 +35,21 @@ public class HashTable implements Serializable {
 		int h2 = 1 + (cle % (table.length-1));		
 		return (h1 + i*h2) % table.length;	
 	}
+	
+	public int acces (int cle) {
+		int indice, i=0;
+		do {
+			indice = h(cle, i++);
+			
+			if (table[indice].getP999() == cle)
+				return table[indice].getPX();
+			
+		} while (table[indice].getP999() != -1 || i<1000);
+		return -1;
+	}
+	
+	public int get (int indice) {
+		return table[indice].getPX();
+	}
+
 }

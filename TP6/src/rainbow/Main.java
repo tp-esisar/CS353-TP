@@ -13,14 +13,12 @@ public class Main {
 		Chaine chaine = new Chaine();
 		HashTable table = new HashTable(10061);
 		
-		table.insert(chaine.CalculChaine(1), 1);
-			
+		System.out.println("ChaineCalcul(1) = "+chaine.CalculChaine(0, 1));			
 		
-		System.out.print("Avancement : 0%");
 		for (int i=1; i<=10000; i++) {
 			int px = rand.nextInt(1000000);
-			int p999 = chaine.CalculChaine(px);
-			//System.out.println("Démarrage "+i);
+			int p999 = chaine.CalculChaine(0, px);
+
 			table.insert(p999, px);
 				
 			if (i%100 == 0)
@@ -28,7 +26,7 @@ public class Main {
 		}
 			
 		System.out.print("\nCréation du fichier... ");
-		File file = new File("rainbow.txt");
+		File file = new File("rainbow.table");
 		ObjectOutputStream ecriture;
 		try {
 			ecriture = new ObjectOutputStream( new FileOutputStream(file));
