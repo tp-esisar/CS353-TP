@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------
  * Parametres globaux
  *----------------------------------------------------------------------------*/
-#define TABLE_SIZE            1009
+#define TABLE_SIZE            13
 #define NULL_ITEM              -1
 #define DELETED_ITEM           -2
 #define ITEM_NAME_SIZE        32
@@ -48,6 +48,7 @@ typedef struct structItem
  * Variable globale contenant le tableau
  *----------------------------------------------------------------------------*/
 Item hash_table[TABLE_SIZE];
+Item* hash_index[TABLE_SIZE];
 
 /*----------------------------------------------------------------------------
  * Cette fonction initialise un tableau hash_table
@@ -121,6 +122,10 @@ Item* findItem(char* itemName);
  * Fonction de recherche des produits par libell��avec index
  *----------------------------------------------------------------------------*/
 Item* findItemWithIndex(char* itemName);
+
+
+
+int searchItem(int itemCode);
 
 
 

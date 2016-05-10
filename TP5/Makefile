@@ -12,5 +12,5 @@ store.o: store.c store.h
 	$(COMP) -o store.o -c store.c $(OPTIONS_CC)
 
 clean :
-	$(RM) main.o store.o
+	$(RM) main.o store.o main
 

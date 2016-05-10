@@ -34,7 +34,6 @@ int hashkey(int itemCode,int nbTry)
 	return (h1 + nbTry * h2) % TABLE_SIZE;
 }
 
-
 /*----------------------------------------------------------------------------
  * Cette fonction ins�re le produit indiqu� dans la table de hachage.
  * Si le produit est ins�r� avec succ�s, alors la fonction retourne SUCCESS (0)
@@ -44,6 +43,7 @@ int hashkey(int itemCode,int nbTry)
  *----------------------------------------------------------------------------*/
  
 int present(Item k, int try) {
+  if(try >= TABLE_SIZE) return 0;
 	int i = hashkey(k.code,try);
 	if(hash_table[i].code == k.code) return 1;
 	if(hash_table[i].code == NULL_ITEM) return 0;
@@ -52,36 +52,36 @@ int present(Item k, int try) {
 
 
 int insRec(Item k, int try) {
-	if(try >= TABLE_SIZE) return TABLE_FULL;
+	if(try >= TABLE_SIZE) return TABLE_FULL; //cas du tableau pleins
 	int i = hashkey(k.code,try);
-	if(hash_table[i].code == k.code) return INSERT_ALREADY_EXIST;
-	if(hash_table[i].code == NULL_ITEM) {
+	if(hash_table[i].code == k.code) return INSERT_ALREADY_EXIST; //cas élément déja existant
+	if(hash_table[i].code == NULL_ITEM) { //cas insertion direct
 		hash_table[i] = k;
 		return SUCCESS;
 	}
-	else if(hash_table[i].code == DELETED_ITEM) {
-		if(present(k,try)) return INSERT_ALREADY_EXIST;
+	else if(hash_table[i].code == DELETED_ITEM) {//cas case supprimée, un des 2 cas précédants 
+		if(present(k,try) == 1) return INSERT_ALREADY_EXIST; //recherche de la présence de l'élément et cas existant
 		else {
-			hash_table[i] = k;
+			hash_table[i] = k; //sinon insertion sur ce DELETED_ITEM
 			return SUCCESS;
 		}
 	}
 	else {
-		return insRec(k,try+1);
+		return insRec(k,try+1); //sinon on sonde un autre emplacement
 	}
 }
 
 int insertItem(int itemCode, char* itemName, float itemPrice) {
 	Item k;
 	k.code = itemCode;
-	int i = strlen(itemName);
+	int i = strlen(itemName); // copie du nom de l'objet et ajout d'espaces (pour l'affichage)
 	memcpy(k.name,itemName,((i>32)?32:i)*sizeof(char));
-	for (i=strlen(itemName); i<31; i++)
+	for (; i<31; i++)
 		k.name[i] = ' ';
 	k.name[i] = '\0';
 	k.price = itemPrice;
 	k.dirty = false;
-	return insRec(k,0);
+	return insRec(k,0); //appel de la fonction d'insertion récursive 
 }
 
 /*----------------------------------------------------------------------------
@@ -123,17 +123,16 @@ int suppressItem(int itemCode)
  * son index dans la table de hashage
  * sa valeur de hash
  *----------------------------------------------------------------------------*/
+
 void dumpItems()
 {
-	int i, indice;
+	int i;
 	printf("CODE\tLIBELLE\t\t\t\tPRIX\tINDEX\n");
-	for (i=0; i<100000; i++) {
-		indice = searchItem(i);
-		if (indice != -1)
-			printf("%d\t%s\t%0.2f\t%d\n", hash_table[indice].code, hash_table[indice].name, hash_table[indice].price, indice);
+	for (i=0; i<TABLE_SIZE; i++) {
+		if (hash_table[i].code >= 0)
+			printf("%d\t%s\t%0.2f\t%d\n", hash_table[i].code, hash_table[i].name, hash_table[i].price, i);
 	}
 }
-
 
 /*----------------------------------------------------------------------------
  * Cette fonction retourne le prix du produit dont le code est itemCode.
@@ -173,6 +172,28 @@ int updateItem(int itemCode, char* itemName, float itemPrice)
 /*----------------------------------------------------------------------------
  * la fonction de r�organisation in situ�:
  *----------------------------------------------------------------------------*/
+
+void insertRebuild(Item k, int try) {
+  int hash = hashkey(k.code,try);
+  //cas place libre
+  if(hash_table[hash].code == NULL_ITEM || hash_table[hash].code == DELETED_ITEM) {
+    hash_table[hash] = k;
+    hash_table[hash].dirty = false;
+  }
+  //cas emplacement déja occupé mais sale
+  else if(hash_table[hash].dirty == true) {
+    Item newK = hash_table[hash];
+    hash_table[hash] = k;
+    hash_table[hash].dirty = false;
+    insertRebuild(newK,0);//on replace le nouvel élément
+  }
+  //cas emplacement occupé et propre
+  else {
+    insertRebuild(k,try+1);//on sonde un autre emplacement
+  }
+}
+ 
+ 
 void rebuildTable()
 {
 	int i;
@@ -182,37 +203,18 @@ void rebuildTable()
 			hash_table[i].dirty = true;
 
 //On nettoie tout les �l�ments
-	/*for (i=0; i<TABLE_SIZE; i++)
-		if (hash_table[i].code > 0 && hash_table[i].dirty == true) {
-			//Proc�dure de d�placement
-				do {
-					hash = hashkey (itemCode, i++);
-					if (hash_table[hash].code == itemCode)
-						return hash;
-				} while (hash_table[hash].code != NULL_ITEM);
-			
-
-
-
-			//Proc�dure d'�change
-			Item temp;
-			hash_table[i]
-
-
-				int code;
-				char name[ITEM_NAME_SIZE];
-				float price;
-				bool dirty;
-
-
-
-		}
-	}*/
-
-//On vide les �l�ments DELETED
-	for (i=0; i<TABLE_SIZE; i++)
-		if (hash_table[i].code ==  DELETED_ITEM)
-			hash_table[i].code = NULL_ITEM;
+	for (i=0; i<TABLE_SIZE; i++) {
+    if(hash_table[i].dirty == true) {
+  		if (hash_table[i].code >= 0 ) {
+  			//Proc�dure de d�placement
+        Item k = hash_table[i];
+        hash_table[i].code = NULL_ITEM;
+  			insertRebuild(k,0);
+      }
+      else 
+        hash_table[i].code = NULL_ITEM;
+    }
+	}
 }
 
 /*----------------------------------------------------------------------------
@@ -225,7 +227,37 @@ void rebuildTable()
  *----------------------------------------------------------------------------*/
 Item* findItem(char* itemName)
 {
+  char formatedName[32]; //comme pour l'insertion et la mise à jour, on met en forme la string pour la comparaison
+  int i = strlen(itemName);
+	memcpy(formatedName,itemName,((i>32)?32:i)*sizeof(char));
+	for (; i<31; i++)
+		formatedName[i] = ' ';
+	formatedName[i] = '\0';
+  
+  Item* found = malloc(0);//on initialise le pointeur de retour pour utiliser realloc
+  if (found == NULL) {
+    fprintf(stderr, "erreur malloc\n");
+    exit(1);
+  }
+  
+  int j;
+  int k;
+  for (j=0,k=0; j<TABLE_SIZE; j++) {
+    //on filtre les éléments à garder
+		if (hash_table[j].code >= 0 && strcmp(hash_table[j].name,formatedName) == 0) {
+		  found = realloc(found,(++k)*sizeof(Item)); //réservation d'une place pour l'élément trouvé
+      found[k-1] = hash_table[j];//ajout de l'element à la fin
+    }
+  }
+  
+  
+  if(k == 0) {
+    free(found);
     return NULL;
+  }
+  else {
+    return found;
+  }
 }
 
 /*----------------------------------------------------------------------------
