@@ -20,7 +20,7 @@ public class HashTable implements Serializable {
 		do {
 			indice = h(p999, i++);
 			
-			if (table[indice].getP999() == p999 || i>999)
+			if (table[indice].getP999() == p999 || i>=table.length)
 				return false;
 			
 		}while (table[indice].getP999() != -1);
@@ -44,12 +44,10 @@ public class HashTable implements Serializable {
 			if (table[indice].getP999() == cle)
 				return table[indice].getPX();
 			
-		} while (table[indice].getP999() != -1 || i<1000);
+		} while (table[indice].getP999() != -1 && i<table.length);
 		return -1;
 	}
 	
-	public int get (int indice) {
-		return table[indice].getPX();
-	}
+
 
 }

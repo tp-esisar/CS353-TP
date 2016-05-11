@@ -21,15 +21,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
-		/*MessageDigest digest = MessageDigest.getInstance("MD5");
-		String toHash = "toto";
-		String cle = "f71dbe52628a3f83a77ab494817525c6";
-		byte[] hash = digest.digest(toHash.getBytes());
-		byte[] test = DatatypeConverter.parseHexBinary(cle);*/
-		
-		/*byte[] temp = chaine.md5(712333);
-		byte[] mdp = args[0].getBytes();*/
-		
 		HashTable table = null;
 		Chaine chaine = new Chaine();
 			
@@ -46,49 +37,40 @@ public class Main {
 			table = (HashTable) lecture.readObject();
 	        lecture.close();
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Erreur lors de l'ï¿½criture du fichier");
+			System.out.println("Erreur importation");
 			e.printStackTrace();
 		}
 		
-		String cle = "cec72301f148e7b0a8a79d3612cb24ba";
-		
-		System.out.println("Dï¿½codage du mot de passe ...");
+		System.out.println("Décodage du mot de passe ...");
 		int P0, px = 0;
 		int i = 999;
-		byte[] mdp = DatatypeConverter.parseHexBinary(cle);
+		byte[] mdp = DatatypeConverter.parseHexBinary(args[0]);
 		boolean find = false;
 		
-		while(!find) {
+		while (!find) {
+			//Partie 1
 			do {
 				px = chaine.reduction(mdp, i);
-				px = chaine.CalculChaine(i+1, px);
+				px = chaine.CalculChaine(i + 1, px);
 				i--;
-			} while((P0 = table.acces(px)) == -1 && i>=0);
-			
-			/*if (i<0) {
-				System.out.println("Dï¿½solï¿½, le mot de passe n'a pas ï¿½tï¿½ trouvï¿½ :-( ");
-				find = true;
-			}
-				
-			else {*/
-				int j=0;
-				byte[] hash = chaine.md5(P0);
-				
-				while (!compare(hash,mdp) && j<=1000){
-					px = chaine.reduction(hash, j++);
-					hash = chaine.md5(px);
-				}
-				
-				if (j<=1000) {
-					find = true;
-					System.out.println("Mot de passe : " + px);
-				}
-				
-						
-			//}
-			
-		}
-		
+			} while ((P0 = table.acces(px)) == -1 && i >= 0);
 
+			if (i < 0) {
+				System.out.println("Mot de passe non trouvé :-( ");
+				System.exit(-1);
+			}
+
+			//Partie 2
+			int j = 0;
+			byte[] hash = chaine.md5(P0);
+			while (!compare(hash, mdp) && j <= 1000) {
+				px = chaine.reduction(hash, j++);
+				hash = chaine.md5(px);
+			}
+
+			if (j <= 1000)
+				find = true;
+		}
+		System.out.println("Mot de passe : " + px);
 	}
 }

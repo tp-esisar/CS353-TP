@@ -16,14 +16,11 @@ public class Chaine {
 	}
 	
 	public int CalculChaine (int i, int px) {
-		byte[] hash;
-				
+		byte[] hash;	
 		for ( ; i<1000; i++) {
 			hash = md5(px);
 			px = reduction(hash, i);
-			//System.out.println("- "+i +" / "+ px);
 		}
-		
 		return px;
 	}
 	
@@ -37,11 +34,13 @@ public class Chaine {
 		if (res < 0) {
 			res = -res;
 		}
-		res = res % 1000000;
+		//res = res % 1000000;
+		res = res % 1000000000;
 		return res;
 	}
 	
 	public byte[] md5(int px) {
-		return digest.digest(String.format("%06d", px) .getBytes());
+		//return digest.digest(String.format("%06d", px) .getBytes());
+		return digest.digest(String.format("%09d", px) .getBytes());
 	}
 }
