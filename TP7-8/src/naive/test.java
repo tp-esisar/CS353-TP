@@ -3,8 +3,12 @@ package naive;
 public class test {
 
 	public static void main(String[] args) {
-		Naif naif = new Naif(3, 2, 2, 0);
-		System.out.println(naif.f(3, 2, 2, 0));
+		int m = 10;
+		int n = 7;
+		int i = 5;
+		int j = 3;
+		Naif naif = new Naif(m,n,i,j);
+		System.out.println(naif.f_rec(m,n,i,j));
 	}
 
 }
