@@ -3,9 +3,8 @@ package naive;
 public class test {
 
 	public static void main(String[] args) {
-		System.out.println(Naif.f(3, 2, 2, 0));
-		
-
+		Naif naif = new Naif(3, 2, 2, 0);
+		System.out.println(naif.f(3, 2, 2, 0));
 	}
 
 }

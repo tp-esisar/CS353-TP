@@ -1,9 +1,27 @@
 package naive;
 
 public class Naif {
-	public static int f(int m, int n, int i, int j) {
+	
+	int tab[][][][];
+	
+	public Naif (int m, int n, int i, int j) {
+		tab = new int[m][n][i+1][j+1]; 
+		for (int a=0; a<m; a++)
+			for (int b=0; b<n; b++)
+				for (int c=0; c<i+1; c++)
+					for (int d=0; d<j+1; d++)
+						tab[a][b][c][d]=0;
+	}
+	
+	
+	public int f(int m, int n, int i, int j) {
 		System.out.println(m+", "+ n+", "+i+", "+ j);
+		
+		//if tab[i][n][i][j] != -1
+		//		return tab[i][n][i][j]
+		
 		if (m==i+1 && n==j+1) return 0;
+		
 		int maxSuccPositif;
 		if(m==1) {
 			if(1<=j) {
