@@ -13,7 +13,9 @@ public class Naif {
 					for (int d=0; d<j+1; d++)
 						tab[a][b][c][d]=-1;
 	}
-	public Naif(Pateau)
+	public Naif(Pateau) {
+		super()
+	}
 	
 	
 	public int f_rec(int m,int n,int i,int j) {
