@@ -2,8 +2,9 @@ package naive;
 
 public class Naif {
 	
-	int tab[][][][];
-	int m,n,i,j;
+	protected int tab[][][][];
+	protected int m,n,i,j;
+	
 	public Naif (int m, int n, int i, int j) {
 		this.m = m;
 		this.n = n;
