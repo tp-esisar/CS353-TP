@@ -1,11 +1,20 @@
 package game;
 
-import naive.Naif;
-
-public class Plateau extends Naif{
+public class Plateau {
+	
+	public int m, n, i, j;
 	
 	public Plateau (int m, int n, int i, int j) {
-		super(m,n,i,j);
+		if (i<m && j<n){
+			this.m = m;
+			this.n = n;
+			this.i = i;
+			this.j = j;
+		}
+		else {
+			System.out.println("Erreur dans le plateau");
+			System.exit(-1);
+		}	
 	}
 	
 	public boolean fin () {
@@ -13,6 +22,44 @@ public class Plateau extends Naif{
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean set (int m, int n, int i, int j){
+		if (i<m && j<n){
+			this.m = m;
+			this.n = n;
+			this.i = i;
+			this.j = j;
+			return true;
+		}
+		else {
+			return false;
+		}	
+	}
+	
+	public boolean coupe (Sens sens, int a) {
+		if (sens == Sens.horizontal) {
+			if (0<a && a<m && a<i){
+				m = a; 
+				i = i-a;
+			}
+			else if (0<a && a<m && a>=i){
+				m = a;
+			}		
+			return true;
+		}
+		else if (sens == Sens.vertical) {
+			if (0<a && a<n && a<j){
+				n = a;
+				j = j-a;
+			}
+			else if (0<a && a<n && a>=j){
+				n = a;
+			}
+			return true;
+		}
+		return false;
+		
 	}
 	
 	public String toString() {

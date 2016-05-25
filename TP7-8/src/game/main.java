@@ -26,16 +26,22 @@ public class main {
 				//Affichage du coup à jouer				
 			}
 			else if (joueur == Joueur.player1) {
-				System.out.println("A vous de jouer !");
-				System.out.println("Taper le sens de la coupure : h/v");
-				String sens = sc.nextLine();
-				
-				if (sens.equals("h")){
+				Sens senss;
+				int coupe;
+				do {
+					System.out.println("A vous de jouer !");
+					System.out.println("Taper le sens de la coupure : h/v");
+					String sens = sc.nextLine();
 					
-				}
-				else if (sens.equals("v")) {
+					if (sens.equals("h"))
+						senss = Sens.horizontal;
+					else if (sens.equals("v"))
+						senss = Sens.vertical;
+					else
+						senss = Sens.none;
 					
-				}
+					coupe = sc.nextInt();
+				} while(plateau.coupe(senss, coupe));		
 				
 			}
 			
