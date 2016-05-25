@@ -1,4 +1,5 @@
 package naive;
+import game.Plateau;;
 
 public class Naif {
 	
@@ -13,8 +14,8 @@ public class Naif {
 					for (int d=0; d<j+1; d++)
 						tab[a][b][c][d]=-1;
 	}
-	public Naif(Pateau) {
-		super()
+	public Naif(Plateau p) {
+		super(p.m,p.n,p.i,p.j);
 	}
 	
 	
@@ -236,6 +237,96 @@ public class Naif {
 				}
 				else {
 					temp = f_accel(m,k,i,j);
+				}
+				maxSucc = Math.max(temp, maxSucc);
+				if(temp<=0 && allSuccStrictPositif) {
+					allSuccStrictPositif = false;
+					maxSuccNegatif = temp;
+				}
+				if(!allSuccStrictPositif) {
+					if(temp <= 0) {
+						maxSuccNegatif = Math.max(temp,maxSuccNegatif);
+					}
+				}
+			}
+		}
+		int result;
+		if(allSuccStrictPositif) {
+			result = -(1+maxSucc);
+		}
+		else {
+			result = 1 - maxSuccNegatif;
+		}
+		cacheWriteAccel(m,n,i,j,result);
+		return result;
+	}
+	
+	public int perfectPlay(Plateau p) {
+		int m = p.m;
+		int n = p.n;
+		int i = p.i;
+		int j = p.j;
+		
+		if (tab[m][n][i][j] != -1)
+			return tab[m][n][i][j];
+		
+		if (m==1 && n==1) return 0;
+		
+		int maxSucc;
+		if(m>=2){
+			if(1<=i) {
+				maxSucc = f_accel(m-1,n,i-1,j);
+				p.set(m-1,n,i-1,j);
+			}
+			else {
+				maxSucc = f_accel(1,n,i,j);
+				p.set(1,n,i,j);
+			}
+		}
+		else {
+			if(1<=j) {
+				maxSucc = f_accel(m,n-1,i,j-1);
+				p.set(m,n-1,i,j-1);
+			}
+			else {
+				maxSucc = f_accel(m,1,i,j);
+				p.set(m,1,i,j);
+			}
+		}
+		int maxSuccNegatif=42;
+		boolean allSuccStrictPositif = true;
+		int temp;
+		if(m>=2){
+			for(int k=1;k<m;k++) {
+				if(k<=i) {
+					temp = f_accel(m-k,n,i-k,j);
+					p.set(m-k,n,i-k,j);
+				}
+				else {
+					temp = f_accel(k,n,i,j);
+					p.set(m-k,n,i-k,j);
+				}
+				maxSucc = Math.max(temp, maxSucc);
+				if(temp<=0 && allSuccStrictPositif) {
+					allSuccStrictPositif = false;
+					maxSuccNegatif = temp;
+				}
+				if(!allSuccStrictPositif) {
+					if(temp <= 0) {
+						maxSuccNegatif = Math.max(temp,maxSuccNegatif);
+					}
+				}
+			}
+		}
+		if(n>=2){
+			for(int k=1;k<n;k++) {
+				if(k<=j) {
+					temp = f_accel(m,n-k,i,j-k);
+					p.set(m,n-k,i,j-k);
+				}
+				else {
+					temp = f_accel(m,k,i,j);
+					p.set(m,k,i,j);
 				}
 				maxSucc = Math.max(temp, maxSucc);
 				if(temp<=0 && allSuccStrictPositif) {
