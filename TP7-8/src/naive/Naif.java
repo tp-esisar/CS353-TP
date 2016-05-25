@@ -301,17 +301,22 @@ public class Naif {
 					temp = f_accel(k,p.n,p.i,p.j);
 					tempPlateau.set(k,p.n,p.i,p.j);
 				}
-				if(temp > maxSucc) {
+				if(temp > maxSucc && allSuccStrictPositif) {
+					maxSucc = temp;
+					bestPlay.copy(tempPlateau);
+				}
+				if(temp > maxSucc && allSuccStrictPositif) {
 					maxSucc = temp;
 					bestPlay.copy(tempPlateau);
 				}
 				if(temp<=0 && allSuccStrictPositif) {
 					allSuccStrictPositif = false;
 					maxSuccNegatif = temp;
+					bestPlay.copy(tempPlateau);
 				}
 				if(!allSuccStrictPositif) {
 					if(temp <= 0) {
-						if(temp > maxSucc) {
+						if(temp > maxSuccNegatif) {
 							maxSuccNegatif = temp;
 							bestPlay.copy(tempPlateau);
 						}
@@ -329,17 +334,18 @@ public class Naif {
 					temp = f_accel(p.m,k,p.i,p.j);
 					tempPlateau.set(p.m,k,p.i,p.j);
 				}
-				if(temp > maxSucc) {
+				if(temp > maxSucc && allSuccStrictPositif) {
 					maxSucc = temp;
 					bestPlay.copy(tempPlateau);
 				}
 				if(temp<=0 && allSuccStrictPositif) {
 					allSuccStrictPositif = false;
 					maxSuccNegatif = temp;
+					bestPlay.copy(tempPlateau);
 				}
 				if(!allSuccStrictPositif) {
 					if(temp <= 0) {
-						if(temp > maxSucc) {
+						if(temp > maxSuccNegatif) {
 							maxSuccNegatif = temp;
 							bestPlay.copy(tempPlateau);
 						}
@@ -347,6 +353,7 @@ public class Naif {
 				}
 			}
 		}
+		
 		p.copy(bestPlay);
 		return maxSucc;
 	}
