@@ -287,7 +287,7 @@ public class Naif {
 			}
 		}
 		int temp;
-		Plateau tempPlateau;
+		Plateau tempPlateau = new Plateau ();
 		if(p.m>=2){
 			for(int k=1;k<p.m;k++) {
 				if(k<=p.i) {

@@ -13,23 +13,25 @@ public class main {
 		}
 		
 		Plateau plateau = new Plateau(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-		Joueur joueur = Joueur.pc; 
+		Joueur joueur = Joueur.player1; 
 		Naif naif = new Naif(plateau);
 		Scanner sc = new Scanner(System.in);
-		
 		
 		while(!plateau.fin()) {
 			
 			System.out.println(plateau);
 			
 			if (joueur == Joueur.pc) {
+				System.out.println("----- Au tour du PC -----");
 				int valNewPlateau = naif.perfectPlay(plateau);
+				System.out.println("Valeur du coup : "+valNewPlateau);
+				//joueur = Joueur.player1;
 			}
 			else if (joueur == Joueur.player1) {
 				Sens senss;
-				int coupe;
+				String coupe;
 				do {
-					System.out.println("A vous de jouer !");
+					System.out.println("----- A vous de jouer ! -----");
 					System.out.println("Taper le sens de la coupure : h/v");
 					String sens = sc.nextLine();
 					
@@ -40,8 +42,11 @@ public class main {
 					else
 						senss = Sens.none;
 					
-					coupe = sc.nextInt();
-				} while(plateau.coupe(senss, coupe));		
+					System.out.println("Taper l'indice de la coupure : ");
+					coupe = sc.nextLine();
+				} while(!plateau.coupe(senss, Integer.parseInt(coupe)));		
+				
+				//joueur = Joueur.pc;
 				
 			}
 			
