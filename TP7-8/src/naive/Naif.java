@@ -12,7 +12,7 @@ public class Naif {
 			for (int b=0; b<n+1; b++)
 				for (int c=0; c<i+1; c++)
 					for (int d=0; d<j+1; d++)
-						tab[a][b][c][d]=-1;
+						tab[a][b][c][d]=0;
 	}
 	public Naif(Plateau p) {
 		this(p.m,p.n,p.i,p.j);
@@ -95,7 +95,7 @@ public class Naif {
 	public int f_dyn(int m,int n,int i,int j) {
 		//System.out.println(m+", "+ n+", "+i+", "+ j);
 
-		if (tab[m][n][i][j] != -1)
+		if (tab[m][n][i][j] != 0)
 			return tab[m][n][i][j];
 		
 		if (m==1 && n==1) return 0;
@@ -185,7 +185,7 @@ public class Naif {
 	public int f_accel(int m,int n,int i,int j) {
 		//System.out.println(m+", "+ n+", "+i+", "+ j);
 		
-		if (tab[m][n][i][j] != -1)
+		if (tab[m][n][i][j] != 0)
 			return tab[m][n][i][j];
 		
 		if (m==1 && n==1) return 0;
