@@ -275,6 +275,7 @@ public class Naif {
 				maxSucc = f_accel(1,p.n,p.i,p.j);
 				bestPlay = new Plateau(1,p.n,p.i,p.j);
 			}
+			
 		}
 		else {
 			if(1<=p.j) {
@@ -286,6 +287,8 @@ public class Naif {
 				bestPlay = new Plateau(p.m,1,p.i,p.j);
 			}
 		}
+		int maxSuccNegatif=42;
+		boolean allSuccStrictPositif = true;
 		int temp;
 		Plateau tempPlateau = new Plateau ();
 		if(p.m>=2){
@@ -302,6 +305,18 @@ public class Naif {
 					maxSucc = temp;
 					bestPlay.copy(tempPlateau);
 				}
+				if(temp<=0 && allSuccStrictPositif) {
+					allSuccStrictPositif = false;
+					maxSuccNegatif = temp;
+				}
+				if(!allSuccStrictPositif) {
+					if(temp <= 0) {
+						if(temp > maxSucc) {
+							maxSuccNegatif = temp;
+							bestPlay.copy(tempPlateau);
+						}
+					}
+				}
 			}
 		}
 		if(p.n>=2){
@@ -317,6 +332,18 @@ public class Naif {
 				if(temp > maxSucc) {
 					maxSucc = temp;
 					bestPlay.copy(tempPlateau);
+				}
+				if(temp<=0 && allSuccStrictPositif) {
+					allSuccStrictPositif = false;
+					maxSuccNegatif = temp;
+				}
+				if(!allSuccStrictPositif) {
+					if(temp <= 0) {
+						if(temp > maxSucc) {
+							maxSuccNegatif = temp;
+							bestPlay.copy(tempPlateau);
+						}
+					}
 				}
 			}
 		}
