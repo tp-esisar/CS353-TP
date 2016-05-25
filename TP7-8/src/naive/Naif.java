@@ -355,7 +355,12 @@ public class Naif {
 		}
 		
 		p.copy(bestPlay);
-		return maxSucc;
+		if(allSuccStrictPositif) {
+			return maxSucc;
+		}
+		else {
+			return maxSuccNegatif;
+		}
 	}
 	
 }

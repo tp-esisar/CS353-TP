@@ -18,20 +18,21 @@ public class main {
 		Scanner sc = new Scanner(System.in);
 		
 		while(!plateau.fin()) {
-			
+			int valNewPlateau = naif.f_accel(plateau.m, plateau.n, plateau.i, plateau.j);
 			System.out.println(plateau);
 			
 			if (joueur == Joueur.pc) {
 				System.out.println("----- Au tour du PC -----");
-				int valNewPlateau = naif.perfectPlay(plateau);
-				System.out.println("Valeur du coup : "+valNewPlateau);
+				System.out.println("Evalution de la configuration : "+valNewPlateau);
+				valNewPlateau = naif.perfectPlay(plateau);
 				//joueur = Joueur.player1;
 			}
 			else if (joueur == Joueur.player1) {
 				Sens senss;
-				String coupe;
+				int coupe;
 				do {
 					System.out.println("----- A vous de jouer ! -----");
+					System.out.println("Evalution de la configuration : "+valNewPlateau);
 					System.out.println("Taper le sens de la coupure : h/v");
 					String sens = sc.nextLine();
 					
@@ -43,18 +44,20 @@ public class main {
 						senss = Sens.none;
 					
 					System.out.println("Taper l'indice de la coupure : ");
-					coupe = sc.nextLine();
-				} while(!plateau.coupe(senss, Integer.parseInt(coupe)));		
-				
-				//joueur = Joueur.pc;
-				
+					try {
+						coupe = Integer.parseInt(sc.nextLine());
+					} catch (Exception e){
+						coupe = -1;
+					} 
+					
+				} while(!plateau.coupe(senss, coupe));
+				valNewPlateau = naif.f_accel(plateau.m, plateau.n, plateau.i, plateau.j);
+				joueur = Joueur.pc;
 			}
-			
-			sc.nextLine();
 		}
 		
 		if (joueur == Joueur.pc)
-			System.out.println("Vous avez perdu face à l'odinateur !");
+			System.out.println("Vous avez perdu face à l'ordinateur !");
 		else
 			System.out.println("Bravo, vous avez battu l'ordinateur !");
 		

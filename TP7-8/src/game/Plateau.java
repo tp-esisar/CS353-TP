@@ -54,27 +54,27 @@ public class Plateau {
 	
 	public boolean coupe (Sens sens, int a) {
 		if (sens == Sens.horizontal) {
-			if (0<a && a<m && a<i){
-				System.out.println("Step h avant");
+			if (0<a && a<m && a<=i){
+				//System.out.println("Step h avant");
 				m = m-a; 
 				i = i-a;
 				return true;
 			}
-			else if (0<a && a<m && a>=i){
-				System.out.println("Step h apres");
+			else if (0<a && a<m && a>i){
+				//System.out.println("Step h apres");
 				m = a;
 				return true;
 			}		
 		}
 		else if (sens == Sens.vertical) {
-			if (0<a && a<n && a<j){
-				System.out.println("Step v avant");
+			if (0<a && a<n && a<=j){
+				//System.out.println("Step v avant");
 				n = a;
 				j = j-a;
 				return true;
 			}
-			else if (0<a && a<n && a>=j){
-				System.out.println("Step v apres");
+			else if (0<a && a<n && a>j){
+				//System.out.println("Step v apres");
 				n = a;
 				return true;
 			}
