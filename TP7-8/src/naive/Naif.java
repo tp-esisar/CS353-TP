@@ -1,5 +1,5 @@
 package naive;
-import game.Plateau;;
+import game.Plateau;
 
 public class Naif {
 	
@@ -15,7 +15,7 @@ public class Naif {
 						tab[a][b][c][d]=-1;
 	}
 	public Naif(Plateau p) {
-		super(p.m,p.n,p.i,p.j);
+		this(p.m,p.n,p.i,p.j);
 	}
 	
 	

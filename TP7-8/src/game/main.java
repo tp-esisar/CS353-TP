@@ -52,6 +52,8 @@ public class main {
 			System.out.println("Vous avez perdu face à l'odinateur !");
 		else
 			System.out.println("Bravo, vous avez battu l'ordinateur !");
+		
+		sc.close();
 
 	}
 
