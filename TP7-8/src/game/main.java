@@ -25,7 +25,7 @@ public class main {
 				System.out.println("----- Au tour du PC -----");
 				System.out.println("Evalution de la configuration : "+valNewPlateau);
 				valNewPlateau = naif.perfectPlay(plateau);
-				//joueur = Joueur.player1;
+				joueur = Joueur.player1;
 			}
 			else if (joueur == Joueur.player1) {
 				Sens senss;
@@ -55,8 +55,8 @@ public class main {
 				joueur = Joueur.pc;
 			}
 		}
-		
-		if (joueur == Joueur.pc)
+		System.out.println(plateau);
+		if (joueur == Joueur.player1)
 			System.out.println("Vous avez perdu face à l'ordinateur !");
 		else
 			System.out.println("Bravo, vous avez battu l'ordinateur !");

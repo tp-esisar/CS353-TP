@@ -26,21 +26,25 @@ public class test {
 		System.out.println("Temps (secondes) : \n- Dynamique : " + (fin-debut)/1000 );*/
 		
 		/**Accel**/
-		m = 100; n = 100; i = 48; j = 52;
-		Naif naif3 = new Naif(m,n,i,j);
+		//m = 100; n = 100; i = 48; j = 52;
+		//Naif naif3 = new Naif(m,n,i,j);
+		//debut = System.currentTimeMillis();
+		//System.out.println(naif3.f_accel(m,n,i,j));
+		//fin = System.currentTimeMillis();
+		//System.out.println("Temps (secondes) : \n- Accel : " + (fin-debut)/1000 );
 		
-//		/**Suite**/
-//		m = 127; n = 127;
-//		Naif naif3 = new Naif(m,n,m-1,n-1);
-//		
-//		debut = System.currentTimeMillis();
-//		for (i=0; i<m; i++)
-//			for(j=0; j<n; j++)
-//				if (naif3.f_dyn(m,n,i,j) == 127)
-//					System.out.println("("+i+","+j+")");
-//		fin = System.currentTimeMillis();
-//		System.out.println("Temps (secondes) : \n- Dynamique : " + (fin-debut)/1000 );
-//		
+		/**Suite**/
+		m = 127; n = 127;
+		Naif naif3 = new Naif(m,n,m-1,n-1);
+		
+		debut = System.currentTimeMillis();
+		for (i=0; i<m; i++)
+			for(j=0; j<n; j++)
+				if (naif3.f_accel(m,n,i,j) == 127)
+					System.out.println("("+i+","+j+")");
+		fin = System.currentTimeMillis();
+		System.out.println("Temps (secondes) : \n- Accel : " + (fin-debut)/1000 );
+		
 //		
 		
 	}
