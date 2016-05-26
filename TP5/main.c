@@ -52,7 +52,7 @@ int main()
     //
     printf("****** Gestionnaire de magasin ******\n");
 
-    // 
+    //
     init();
 		insert_Random(TABLE_SIZE,time(NULL));
 /*    //
@@ -71,7 +71,7 @@ int main()
 
 */    //
     dumpItems();
-		
+
 
     //
     printf("=======Gestionnaire de magasin ======\n");
@@ -85,9 +85,10 @@ int main()
 		delete_Random(TABLE_SIZE,time(NULL)+2);
 		printf("=======Ré-insertion de la moitié des éléments avec seed 42 ======\n");
 		insert_Random(TABLE_SIZE/2,time(NULL));
-		dumpItems();
+
 		int item = 4242;
 		insertItem(item,"item à mette à jour",9999);
+        dumpItems();
 		printf("*******Utilisation de getPrice pour l'item %d ******\n",item);
 		printf("Le Prix de l'item %d est %0.2f\n",item, getPrice(item));
 		printf("Mise à jour de cet item via updateItem(), Code de retour:%d\n",updateItem(item, "item mis à jour", 42.4242));
@@ -105,7 +106,7 @@ int main()
 		printf("CODE\tLIBELLE\t\t\t\tPRIX\n");
 		printf("%d\t%s\t%0.2f\n", found[0].code, found[0].name, found[0].price);
 		printf("%d\t%s\t%0.2f\n", found[1].code, found[1].name, found[1].price);
-		
+
     return 0;
 }
 
